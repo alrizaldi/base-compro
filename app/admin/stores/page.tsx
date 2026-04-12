@@ -22,12 +22,16 @@ export default function AdminStoresPage() {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deletingStore, setDeletingStore] = useState<Store | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [formData, setFormData] = useState<StoreFormData>({
     name: "",
     address: "",
     city: "",
     phone: "",
     image: "",
+    latitude: undefined,
+    longitude: undefined,
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,7 +81,16 @@ export default function AdminStoresPage() {
 
   function openCreateModal() {
     setEditingStore(null);
-    setFormData({ name: "", address: "", city: "", phone: "", image: "" });
+    setFormData({
+      name: "",
+      address: "",
+      city: "",
+      phone: "",
+      image: "",
+      latitude: undefined,
+      longitude: undefined,
+    });
+    setImagePreview("");
     setIsModalOpen(true);
   }
 
@@ -89,7 +102,10 @@ export default function AdminStoresPage() {
       city: store.city,
       phone: store.phone,
       image: store.image || "",
+      latitude: store.latitude,
+      longitude: store.longitude,
     });
+    setImagePreview(store.image || "");
     setIsModalOpen(true);
   }
 
@@ -130,6 +146,142 @@ export default function AdminStoresPage() {
       await loadStores();
     } catch (err) {
       setError("Failed to delete store");
+    }
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const allowedTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/svg+xml",
+      "image/webp",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Only PNG, JPG, SVG, and WebP images are allowed");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    try {
+      setUploadingImage(true);
+      setError(null);
+
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to upload image");
+      }
+
+      setFormData({ ...formData, image: data.url });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to upload image");
+    } finally {
+      setUploadingImage(false);
+    }
+  }
+
+  async function handleGeocodeAddress() {
+    if (!formData.address || !formData.city) {
+      setError("Please fill in both address and city first");
+      return;
+    }
+
+    try {
+      setUploadingImage(true);
+      setError(null);
+
+      const fullAddress = `${formData.address}, ${formData.city}, Indonesia`;
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}&limit=1`,
+      );
+
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        setFormData({
+          ...formData,
+          latitude: parseFloat(data[0].lat),
+          longitude: parseFloat(data[0].lon),
+        });
+      } else {
+        setError("Could not find location. Please enter coordinates manually.");
+      }
+    } catch (err) {
+      setError("Failed to geocode address. Please enter coordinates manually.");
+    } finally {
+      setUploadingImage(false);
+    }
+  }
+
+  function extractCoordinatesFromEmbed(embedCode: string) {
+    const patterns = [
+      /!2d(-?\d+\.?\d*).*?!3d(-?\d+\.?\d*)/,
+      /!3d(-?\d+\.?\d*).*?!2d(-?\d+\.?\d*)/,
+      /q=(-?\d+\.?\d*),(-?\d+\.?\d*)/,
+    ];
+
+    for (const pattern of patterns) {
+      const match = embedCode.match(pattern);
+      if (match) {
+        if (pattern.source.includes("!2d.*?!3d")) {
+          return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) };
+        }
+        if (pattern.source.includes("!3d.*?!2d")) {
+          return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+        }
+        return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+      }
+    }
+    return null;
+  }
+
+  async function handleExtractFromEmbed(embedCode: string) {
+    if (!embedCode.trim()) {
+      setError("Please paste the Google Maps embed code");
+      return;
+    }
+
+    try {
+      setError(null);
+      const coords = extractCoordinatesFromEmbed(embedCode);
+
+      if (coords) {
+        setFormData({
+          ...formData,
+          latitude: coords.lat,
+          longitude: coords.lng,
+        });
+      } else {
+        setError(
+          "Could not extract coordinates. Make sure you pasted the full Google Maps embed code.",
+        );
+      }
+    } catch (err) {
+      setError(
+        "Failed to extract coordinates. Please check the embed code format.",
+      );
     }
   }
 
@@ -404,22 +556,173 @@ export default function AdminStoresPage() {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="image"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Image URL
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Store Image
                   </label>
-                  <input
-                    type="text"
-                    id="image"
-                    value={formData.image}
-                    onChange={(e) =>
-                      setFormData({ ...formData, image: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
-                    placeholder="https://example.com/store.jpg"
-                  />
+                  <div className="space-y-3">
+                    {imagePreview && (
+                      <div className="relative w-full max-w-md">
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          className="w-full h-48 object-cover rounded-md border border-gray-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setImagePreview("");
+                            setFormData({ ...formData, image: "" });
+                          }}
+                          className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700 text-sm"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3">
+                      <label className="flex-1 cursor-pointer">
+                        <div className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors text-center">
+                          {uploadingImage ? "Uploading..." : "Upload Image"}
+                        </div>
+                        <input
+                          type="file"
+                          accept="image/png,image/jpeg,image/jpg,image/svg+xml,image/webp"
+                          onChange={handleImageUpload}
+                          disabled={uploadingImage}
+                          className="hidden"
+                        />
+                      </label>
+                      <span className="text-xs text-gray-500">or</span>
+                    </div>
+                    <input
+                      type="text"
+                      id="image"
+                      value={formData.image}
+                      onChange={(e) => {
+                        setFormData({ ...formData, image: e.target.value });
+                        if (e.target.value) {
+                          setImagePreview(e.target.value);
+                        } else {
+                          setImagePreview("");
+                        }
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+                      placeholder="https://example.com/store.jpg"
+                    />
+                    <p className="text-xs text-gray-500">
+                      Upload an image or paste a URL. Max size: 5MB (PNG, JPG,
+                      SVG, WebP)
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Map Location
+                  </label>
+                  <div className="space-y-3">
+                    <div>
+                      <label
+                        htmlFor="embedCode"
+                        className="block text-xs text-gray-600 mb-1"
+                      >
+                        Paste Google Maps Embed Code
+                      </label>
+                      <textarea
+                        id="embedCode"
+                        rows={3}
+                        onChange={(e) => {
+                          if (
+                            e.target.value.includes("google.com/maps/embed")
+                          ) {
+                            handleExtractFromEmbed(e.target.value);
+                          }
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 text-xs font-mono"
+                        placeholder='<iframe src="https://www.google.com/maps/embed?pb=..."></iframe>'
+                      />
+                      <p className="mt-1 text-xs text-gray-500">
+                        Go to Google Maps → Share → Embed a map → Copy HTML →
+                        Paste here
+                      </p>
+                    </div>
+                    <div className="text-center text-xs text-gray-400">
+                      — or enter manually —
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label
+                          htmlFor="latitude"
+                          className="block text-xs text-gray-600 mb-1"
+                        >
+                          Latitude
+                        </label>
+                        <input
+                          type="number"
+                          id="latitude"
+                          step="any"
+                          value={formData.latitude || ""}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              latitude: e.target.value
+                                ? parseFloat(e.target.value)
+                                : undefined,
+                            })
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                          placeholder="-6.2088"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="longitude"
+                          className="block text-xs text-gray-600 mb-1"
+                        >
+                          Longitude
+                        </label>
+                        <input
+                          type="number"
+                          id="longitude"
+                          step="any"
+                          value={formData.longitude || ""}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              longitude: e.target.value
+                                ? parseFloat(e.target.value)
+                                : undefined,
+                            })
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                          placeholder="106.8456"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleGeocodeAddress}
+                      disabled={uploadingImage}
+                      className="w-full px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                    >
+                      {uploadingImage
+                        ? "Finding location..."
+                        : "📍 Auto-fill from Address"}
+                    </button>
+                    {formData.latitude && formData.longitude && (
+                      <div className="mt-2">
+                        <iframe
+                          src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                          width="100%"
+                          height="150"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          title="Location preview"
+                          className="w-full rounded-md border border-gray-300"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="flex justify-end gap-3 pt-4">
                   <button

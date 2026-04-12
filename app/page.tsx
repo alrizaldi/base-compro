@@ -358,7 +358,7 @@ export default async function HomePage() {
               {stores.map((store) => (
                 <div
                   key={store.id}
-                  className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+                  className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
                     {store.image ? (
@@ -428,7 +428,42 @@ export default async function HomePage() {
                         </svg>
                         <span>{store.phone}</span>
                       </div>
+                      <div className="flex items-center gap-2">
+                        <svg
+                          className="w-4 h-4 text-gray-400 flex-shrink-0"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                        </svg>
+                        <span className="font-medium text-gray-900">
+                          {store.city}
+                        </span>
+                      </div>
                     </div>
+                  </div>
+                  <div className="border-t border-gray-200">
+                    <iframe
+                      src={
+                        store.latitude && store.longitude
+                          ? `https://maps.google.com/maps?q=${store.latitude},${store.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                          : `https://maps.google.com/maps?q=${encodeURIComponent(store.address + ", " + store.city)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                      }
+                      width="100%"
+                      height="150"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={`${store.name} location`}
+                      className="w-full"
+                    />
                   </div>
                 </div>
               ))}

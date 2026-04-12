@@ -5,6 +5,8 @@ export interface Store {
   city: string;
   phone: string;
   image?: string;
+  latitude?: number;
+  longitude?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -17,6 +19,8 @@ export const mockStores: Store[] = [
     city: "Jakarta",
     phone: "+62 21 555 0101",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400",
+    latitude: -6.225,
+    longitude: 106.8133,
     createdAt: "2024-06-01T08:00:00Z",
     updatedAt: "2024-06-01T08:00:00Z",
   },
@@ -27,6 +31,8 @@ export const mockStores: Store[] = [
     city: "Bandung",
     phone: "+62 22 555 0202",
     image: "https://images.unsplash.com/photo-1567449303078-57ad995bd329?w=400",
+    latitude: -6.9175,
+    longitude: 107.6191,
     createdAt: "2024-08-15T10:00:00Z",
     updatedAt: "2024-08-15T10:00:00Z",
   },
@@ -37,6 +43,8 @@ export const mockStores: Store[] = [
     city: "Surabaya",
     phone: "+62 31 555 0303",
     image: "https://images.unsplash.com/photo-1577412647305-991150c7d163?w=400",
+    latitude: -7.2575,
+    longitude: 112.7521,
     createdAt: "2024-10-20T14:00:00Z",
     updatedAt: "2024-10-20T14:00:00Z",
   },
@@ -47,6 +55,8 @@ export const mockStores: Store[] = [
     city: "Bali",
     phone: "+62 361 555 0404",
     image: "https://images.unsplash.com/photo-1556740758-90de374c4665?w=400",
+    latitude: -8.6705,
+    longitude: 115.2126,
     createdAt: "2025-01-05T09:00:00Z",
     updatedAt: "2025-01-05T09:00:00Z",
   },
@@ -57,6 +67,8 @@ export const mockStores: Store[] = [
     city: "Yogyakarta",
     phone: "+62 274 555 0505",
     image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400",
+    latitude: -7.7956,
+    longitude: 110.3695,
     createdAt: "2025-02-10T11:00:00Z",
     updatedAt: "2025-02-10T11:00:00Z",
   },
@@ -67,6 +79,8 @@ export const mockStores: Store[] = [
     city: "Medan",
     phone: "+62 61 555 0606",
     image: "https://images.unsplash.com/photo-1528698827591-e19cef3a72bf?w=400",
+    latitude: 3.5952,
+    longitude: 98.6722,
     createdAt: "2025-03-01T08:00:00Z",
     updatedAt: "2025-03-01T08:00:00Z",
   },
@@ -77,6 +91,8 @@ export const mockStores: Store[] = [
     city: "Semarang",
     phone: "+62 24 555 0707",
     image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=400",
+    latitude: -6.9666,
+    longitude: 110.4196,
     createdAt: "2025-03-20T15:00:00Z",
     updatedAt: "2025-03-20T15:00:00Z",
   },
@@ -86,6 +102,8 @@ export const mockStores: Store[] = [
     address: "Jl. Pettarani No. 90, Panakkukang",
     city: "Makassar",
     phone: "+62 411 555 0808",
+    latitude: -5.1477,
+    longitude: 119.4327,
     createdAt: "2025-04-05T10:00:00Z",
     updatedAt: "2025-04-05T10:00:00Z",
   },
@@ -96,6 +114,8 @@ export const mockStores: Store[] = [
     city: "Denpasar",
     phone: "+62 361 555 0909",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400",
+    latitude: -8.65,
+    longitude: 115.2167,
     createdAt: "2025-04-25T13:00:00Z",
     updatedAt: "2025-04-25T13:00:00Z",
   },
@@ -106,6 +126,8 @@ export const mockStores: Store[] = [
     city: "Malang",
     phone: "+62 341 555 1010",
     image: "https://images.unsplash.com/photo-1554199356-695380986996?w=400",
+    latitude: -7.9797,
+    longitude: 112.6304,
     createdAt: "2025-05-10T09:00:00Z",
     updatedAt: "2025-05-10T09:00:00Z",
   },

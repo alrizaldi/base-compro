@@ -253,6 +253,25 @@ export default function StorePage() {
                         </div>
                       </div>
                     </div>
+
+                    {/* Map */}
+                    <div className="border-t border-gray-200">
+                      <iframe
+                        src={
+                          store.latitude && store.longitude
+                            ? `https://maps.google.com/maps?q=${store.latitude},${store.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                            : `https://maps.google.com/maps?q=${encodeURIComponent(store.address + ", " + store.city)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                        }
+                        width="100%"
+                        height="150"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title={`${store.name} location`}
+                        className="w-full"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

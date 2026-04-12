@@ -72,6 +72,12 @@ export default function ArticlePage() {
     return text.substring(0, maxLength).trimEnd() + "...";
   }
 
+  function stripHtml(html: string): string {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  }
+
   return (
     <PageLayout>
       <div className="flex-1">
@@ -219,7 +225,7 @@ export default function ArticlePage() {
                         {article.title}
                       </h2>
                       <p className="mt-3 text-sm text-gray-600 line-clamp-3">
-                        {truncate(article.content, 150)}
+                        {truncate(stripHtml(article.content), 150)}
                       </p>
                       <div className="mt-4">
                         <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700">

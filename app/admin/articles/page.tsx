@@ -23,6 +23,8 @@ export default function AdminArticlesPage() {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deletingArticle, setDeletingArticle] = useState<Article | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [formData, setFormData] = useState<ArticleFormData>({
     title: "",
     content: "",
@@ -85,6 +87,7 @@ export default function AdminArticlesPage() {
       image: "",
       published: false,
     });
+    setImagePreview("");
     setIsModalOpen(true);
   }
 
@@ -97,6 +100,7 @@ export default function AdminArticlesPage() {
       image: article.image || "",
       published: article.published,
     });
+    setImagePreview(article.image || "");
     setIsModalOpen(true);
   }
 
@@ -139,6 +143,63 @@ export default function AdminArticlesPage() {
       await loadArticles();
     } catch (err) {
       setError("Failed to delete article");
+    }
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/svg+xml",
+      "image/webp",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Only PNG, JPG, SVG, and WebP images are allowed");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be less than 5MB");
+      return;
+    }
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    // Upload file
+    try {
+      setUploadingImage(true);
+      setError(null);
+
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to upload image");
+      }
+
+      setFormData({ ...formData, image: data.url });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to upload image");
+    } finally {
+      setUploadingImage(false);
     }
   }
 
@@ -405,22 +466,64 @@ export default function AdminArticlesPage() {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="image"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Image URL
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Feature Image
                   </label>
-                  <input
-                    type="text"
-                    id="image"
-                    value={formData.image}
-                    onChange={(e) =>
-                      setFormData({ ...formData, image: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
-                    placeholder="https://example.com/image.jpg"
-                  />
+                  <div className="space-y-3">
+                    {imagePreview && (
+                      <div className="relative w-full max-w-md">
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          className="w-full h-48 object-cover rounded-md border border-gray-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setImagePreview("");
+                            setFormData({ ...formData, image: "" });
+                          }}
+                          className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-700 text-sm"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3">
+                      <label className="flex-1 cursor-pointer">
+                        <div className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors text-center">
+                          {uploadingImage ? "Uploading..." : "Upload Image"}
+                        </div>
+                        <input
+                          type="file"
+                          accept="image/png,image/jpeg,image/jpg,image/svg+xml,image/webp"
+                          onChange={handleImageUpload}
+                          disabled={uploadingImage}
+                          className="hidden"
+                        />
+                      </label>
+                      <span className="text-xs text-gray-500">or</span>
+                    </div>
+                    <input
+                      type="text"
+                      id="image"
+                      value={formData.image}
+                      onChange={(e) => {
+                        setFormData({ ...formData, image: e.target.value });
+                        if (e.target.value) {
+                          setImagePreview(e.target.value);
+                        } else {
+                          setImagePreview("");
+                        }
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    <p className="text-xs text-gray-500">
+                      Upload an image or paste a URL. Max size: 5MB (PNG, JPG,
+                      SVG, WebP)
+                    </p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <input

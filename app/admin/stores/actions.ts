@@ -14,6 +14,8 @@ export interface StoreFormData {
   city: string;
   phone: string;
   image?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface PaginatedResponse<T> {

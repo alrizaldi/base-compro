@@ -71,6 +71,8 @@ const storeSchema = new mongoose.Schema(
     city: String,
     phone: String,
     image: String,
+    latitude: Number,
+    longitude: Number,
   },
   { timestamps: true },
 );
