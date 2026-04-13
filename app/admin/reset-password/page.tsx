@@ -1,17 +1,10 @@
 "use client";
 
 import { useState, FormEvent, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
-// This page uses useSearchParams() so it must be dynamic
-export const dynamic = "force-dynamic";
-
 export default function ResetPasswordPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const token = searchParams.get("token");
-
+  const [token, setToken] = useState<string | null>(null);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -22,7 +15,11 @@ export default function ResetPasswordPage() {
 
   // Validate token on mount
   useEffect(() => {
-    if (!token) {
+    const params = new URLSearchParams(window.location.search);
+    const t = params.get("token");
+    setToken(t);
+
+    if (!t) {
       setValidating(false);
       setError("No reset token provided");
       return;
@@ -30,7 +27,7 @@ export default function ResetPasswordPage() {
 
     const validateToken = async () => {
       try {
-        const res = await fetch(`/api/auth/verify-reset-token?token=${token}`);
+        const res = await fetch(`/api/auth/verify-reset-token?token=${t}`);
         const data = await res.json();
 
         if (data.valid) {
@@ -46,7 +43,7 @@ export default function ResetPasswordPage() {
     };
 
     validateToken();
-  }, [token]);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -83,7 +80,7 @@ export default function ResetPasswordPage() {
 
       // Redirect to login after 2 seconds
       setTimeout(() => {
-        router.push("/admin/login");
+        window.location.href = "/admin/login";
       }, 2000);
     } catch {
       setError("An error occurred. Please try again.");
