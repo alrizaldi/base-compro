@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { fetchAboutContent } from "@/app/about/actions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,14 +13,32 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "YourBrand - Premium Tech Essentials",
-    template: "%s | YourBrand",
-  },
-  description:
-    "Curated collection of high-quality tech accessories designed to elevate your workspace and daily life.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await fetchAboutContent();
+
+  const siteName = about?.logoText || "YourBrand";
+  const defaultTitle = about?.heroTitle || "Premium Tech Essentials";
+  const defaultDescription =
+    about?.heroSubtitle ||
+    "Curated collection of high-quality tech accessories designed to elevate your workspace and daily life.";
+
+  const baseMetadata: Metadata = {
+    title: {
+      default: `${siteName} - ${defaultTitle}`,
+      template: `%s | ${siteName}`,
+    },
+    description: defaultDescription,
+  };
+
+  if (about?.logoUrl) {
+    baseMetadata.icons = {
+      icon: about.logoUrl,
+      apple: about.logoUrl,
+    };
+  }
+
+  return baseMetadata;
+}
 
 export default function RootLayout({
   children,

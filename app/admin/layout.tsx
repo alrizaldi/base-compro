@@ -13,6 +13,7 @@ const adminLinks = [
   { name: "Manage Testimonials", href: "/admin/testimonials" },
   { name: "Manage Stores", href: "/admin/stores" },
   { name: "Manage Contacts", href: "/admin/contacts" },
+  { name: "Manage Subscribers", href: "/admin/subscribers" },
   { name: "Manage About", href: "/admin/about" },
   { name: "Account Management", href: "/admin/accounts" },
 ];
@@ -175,10 +176,10 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
               className="flex items-center gap-2 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
             >
               <div className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-medium">
-                {user.name.charAt(0)}
+                {user?.name?.charAt?.(0) || user?.email?.charAt?.(0) || "?"}
               </div>
               <span className="hidden sm:inline text-sm font-medium">
-                {user.name}
+                {user?.name || "Unknown"}
               </span>
               <svg
                 className="h-4 w-4"
@@ -204,11 +205,11 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-20">
                   <div className="px-4 py-2 border-b border-gray-200">
                     <p className="text-sm font-medium text-gray-900">
-                      {user.name}
+                      {user?.name || "Unknown"}
                     </p>
-                    <p className="text-xs text-gray-500">{user.email}</p>
+                    <p className="text-xs text-gray-500">{user?.email || ""}</p>
                     <p className="text-xs text-gray-400 mt-1 capitalize">
-                      {user.role.replace("_", " ")}
+                      {(user?.role || "admin").replace("_", " ")}
                     </p>
                   </div>
                   <Link

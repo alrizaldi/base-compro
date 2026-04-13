@@ -11,9 +11,12 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+  const [subscribeToNewsletter, setSubscribeToNewsletter] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subscribing, setSubscribing] = useState(false);
+  const [subscribedOnly, setSubscribedOnly] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -21,13 +24,57 @@ export default function ContactPage() {
     setError(null);
 
     try {
+      // Submit contact form
       await submitContactForm(formData);
+
+      // If checkbox checked, subscribe to newsletter
+      if (subscribeToNewsletter) {
+        setSubscribing(true);
+        try {
+          await fetch("/api/subscribers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: formData.email,
+              name: formData.name,
+            }),
+          });
+        } catch {
+          // Silently fail - contact form submission still succeeds
+        }
+        setSubscribing(false);
+      }
+
       setSubmitted(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (err) {
+      setSubscribeToNewsletter(false);
+    } catch {
       setError("Failed to send message. Please try again.");
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function handleSubscribeOnly(e: React.FormEvent) {
+    e.preventDefault();
+    setSubscribing(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      if (!res.ok) throw new Error("Failed to subscribe");
+
+      setSubscribedOnly(true);
+      setFormData({ ...formData, email: "" });
+    } catch {
+      setError("Failed to subscribe. Please try again.");
+    } finally {
+      setSubscribing(false);
     }
   }
 
@@ -310,6 +357,25 @@ export default function ContactPage() {
                     />
                   </div>
 
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="newsletter"
+                      checked={subscribeToNewsletter}
+                      onChange={(e) =>
+                        setSubscribeToNewsletter(e.target.checked)
+                      }
+                      className="mt-0.5 w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                    />
+                    <label
+                      htmlFor="newsletter"
+                      className="text-sm text-gray-600"
+                    >
+                      Subscribe me to the newsletter — receive updates and
+                      announcements
+                    </label>
+                  </div>
+
                   <button
                     type="submit"
                     disabled={submitting}
@@ -318,6 +384,50 @@ export default function ContactPage() {
                     {submitting ? "Sending..." : "Send Message"}
                   </button>
                 </form>
+
+                {/* Newsletter Subscription */}
+                <div className="mt-10 pt-8 border-t border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Subscribe to Our Newsletter
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Get updates and announcements delivered to your inbox.
+                  </p>
+
+                  {subscribedOnly ? (
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-sm font-medium text-green-800">
+                        You&apos;re subscribed! Check your inbox for updates.
+                      </p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubscribeOnly} className="flex gap-3">
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            name: "",
+                            subject: "",
+                            message: "",
+                            email: e.target.value,
+                          })
+                        }
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                        placeholder="Enter your email"
+                        required
+                      />
+                      <button
+                        type="submit"
+                        disabled={subscribing}
+                        className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
+                      >
+                        {subscribing ? "Subscribing..." : "Subscribe"}
+                      </button>
+                    </form>
+                  )}
+                </div>
               </div>
             </div>
           </div>

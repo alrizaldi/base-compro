@@ -1,6 +1,7 @@
 import PageLayout from "@/app/PageLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { fetchAboutContent } from "@/app/about/actions";
 
 // Fetch data for previews
 import { fetchProducts, FetchProductsParams } from "@/app/product/actions";
@@ -11,9 +12,14 @@ import {
 } from "@/app/testimonial/actions";
 import { fetchStores, FetchStoresParams } from "@/app/store/actions";
 
-export const metadata: Metadata = {
-  title: "Home",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await fetchAboutContent();
+  const siteName = about?.logoText || "YourBrand";
+
+  return {
+    title: `Home | ${siteName}`,
+  };
+}
 
 export default async function HomePage() {
   const productsRes = await fetchProducts({
@@ -32,11 +38,18 @@ export default async function HomePage() {
     page: 1,
     limit: 3,
   } as FetchStoresParams);
+  const aboutData = await fetchAboutContent();
 
   const products = productsRes.data;
   const articles = articlesRes.data;
   const testimonials = testimonialsRes.data;
   const stores = storesRes.data;
+  const stats = aboutData?.stats || [
+    { value: "5+", label: "Years in Business" },
+    { value: "10K+", label: "Happy Customers" },
+    { value: "50K+", label: "Products Sold" },
+    { value: "10", label: "Store Locations" },
+  ];
 
   function formatCurrency(value: number) {
     return new Intl.NumberFormat("id-ID", {
@@ -102,12 +115,7 @@ export default async function HomePage() {
         <section className="border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-200">
-              {[
-                { value: "5+", label: "Years in Business" },
-                { value: "10K+", label: "Happy Customers" },
-                { value: "50K+", label: "Products Sold" },
-                { value: "10", label: "Store Locations" },
-              ].map((stat, i) => (
+              {stats.map((stat, i) => (
                 <div key={i} className="py-10 px-6 text-center">
                   <div className="text-3xl sm:text-4xl font-bold text-gray-900">
                     {stat.value}

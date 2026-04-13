@@ -45,9 +45,9 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center gap-2">
               {logoUrl ? (
-                <img src={logoUrl} alt={logoText} className="h-8 w-auto" />
+                <img src={logoUrl} alt={logoText} className="h-10 w-auto" />
               ) : (
-                <span className="text-xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-gray-900">
                   {logoText}
                 </span>
               )}
