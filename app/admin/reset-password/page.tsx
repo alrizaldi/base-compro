@@ -4,6 +4,9 @@ import { useState, FormEvent, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
+// This page uses useSearchParams() so it must be dynamic
+export const dynamic = "force-dynamic";
+
 export default function ResetPasswordPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -27,9 +30,7 @@ export default function ResetPasswordPage() {
 
     const validateToken = async () => {
       try {
-        const res = await fetch(
-          `/api/auth/verify-reset-token?token=${token}`,
-        );
+        const res = await fetch(`/api/auth/verify-reset-token?token=${token}`);
         const data = await res.json();
 
         if (data.valid) {
@@ -96,7 +97,9 @@ export default function ResetPasswordPage() {
         <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
           <div className="text-center">
             <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-gray-900 border-t-transparent"></div>
-            <p className="mt-4 text-sm text-gray-600">Validating reset link...</p>
+            <p className="mt-4 text-sm text-gray-600">
+              Validating reset link...
+            </p>
           </div>
         </div>
       </div>
