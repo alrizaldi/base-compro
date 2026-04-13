@@ -942,11 +942,12 @@ export default function AdminProductsPage() {
                 <p className="font-medium mb-1">Excel File Format:</p>
                 <ul className="list-disc list-inside space-y-0.5 text-xs">
                   <li>
-                    Columns: Name, Description, Price, Images (comma separated)
+                    Columns: ID, Name, Description, Price, Images (comma
+                    separated)
                   </li>
                   <li>Optional: Platform 1, URL 1, Platform 2, URL 2, etc.</li>
-                  <li>Products with matching names will be updated</li>
-                  <li>New products will be created</li>
+                  <li>Leave ID empty to create new products</li>
+                  <li>Products with matching ID will be updated</li>
                 </ul>
               </div>
 

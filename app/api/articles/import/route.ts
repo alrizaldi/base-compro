@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/db/connect";
 import AdminAccount from "@/lib/db/models/AdminAccount";
-import Product from "@/lib/db/models/Product";
+import Article from "@/lib/db/models/Article";
 import * as XLSX from "xlsx";
 
 const JWT_SECRET =
@@ -22,7 +22,7 @@ async function checkAuth(request: NextRequest) {
   }
 }
 
-// POST /api/products/import - Import products from Excel file
+// POST /api/articles/import - Import articles from Excel file
 export async function POST(request: NextRequest) {
   try {
     if (!(await checkAuth(request))) {
@@ -87,64 +87,48 @@ export async function POST(request: NextRequest) {
 
       try {
         const id = String(row[0] || "").trim();
-        const name = String(row[1] || "").trim();
-        const description = String(row[2] || "").trim();
-        const price = parseFloat(row[3]);
-        const imagesStr = String(row[4] || "").trim();
-        const platform1 = String(row[5] || "").trim();
-        const url1 = String(row[6] || "").trim();
-        const platform2 = String(row[7] || "").trim();
-        const url2 = String(row[8] || "").trim();
-        const platform3 = String(row[9] || "").trim();
-        const url3 = String(row[10] || "").trim();
+        const title = String(row[1] || "").trim();
+        const author = String(row[2] || "").trim();
+        const content = String(row[3] || "").trim();
+        const image = String(row[4] || "").trim();
+        const publishedStr = String(row[5] || "No")
+          .trim()
+          .toLowerCase();
+        const published =
+          publishedStr === "yes" ||
+          publishedStr === "true" ||
+          publishedStr === "1";
 
         // Validate required fields
-        if (!name || !description || isNaN(price)) {
+        if (!title || !author || !content) {
           results.failed++;
           results.errors.push(
-            `Row ${rowNum}: Missing required fields (name, description, or price)`,
+            `Row ${rowNum}: Missing required fields (title, author, or content)`,
           );
           continue;
         }
 
-        // Build ecommerce links array
-        const ecommerceLinks: { platform: string; url: string }[] = [];
-        if (platform1 && url1)
-          ecommerceLinks.push({ platform: platform1, url: url1 });
-        if (platform2 && url2)
-          ecommerceLinks.push({ platform: platform2, url: url2 });
-        if (platform3 && url3)
-          ecommerceLinks.push({ platform: platform3, url: url3 });
-
-        // Build images array
-        const images = imagesStr
-          ? imagesStr
-              .split(",")
-              .map((url: string) => url.trim())
-              .filter((url: string) => url.length > 0)
-          : [];
-
-        // Check if product exists by ID (if provided and valid)
+        // Check if article exists by ID (if provided and valid)
         let existing = null;
         if (id && id.length === 24) {
-          existing = await Product.findById(id);
+          existing = await Article.findById(id);
         }
 
         if (existing) {
           // Update existing
-          await Product.updateOne(
+          await Article.updateOne(
             { _id: id },
-            { name, description, price, images, ecommerceLinks },
+            { title, content, author, image, published },
           );
           results.updated++;
         } else {
           // Create new
-          await Product.create({
-            name,
-            description,
-            price,
-            images,
-            ecommerceLinks,
+          await Article.create({
+            title,
+            content,
+            author,
+            image,
+            published,
           });
           results.created++;
         }
@@ -161,7 +145,7 @@ export async function POST(request: NextRequest) {
       results,
     });
   } catch (error) {
-    console.error("Import products error:", error);
+    console.error("Import articles error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

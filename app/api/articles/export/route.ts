@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/db/connect";
 import AdminAccount from "@/lib/db/models/AdminAccount";
-import Product from "@/lib/db/models/Product";
+import Article from "@/lib/db/models/Article";
 import * as XLSX from "xlsx";
 
 const JWT_SECRET =
@@ -22,7 +22,7 @@ async function checkAuth(request: NextRequest) {
   }
 }
 
-// GET /api/products/export - Export products as Excel file
+// GET /api/articles/export - Export articles as Excel file
 export async function GET(request: NextRequest) {
   try {
     if (!(await checkAuth(request))) {
@@ -34,44 +34,29 @@ export async function GET(request: NextRequest) {
 
     await dbConnect();
 
-    // Fetch all products
-    const products = await Product.find().sort({ createdAt: -1 }).lean();
+    // Fetch all articles
+    const articles = await Article.find().sort({ createdAt: -1 }).lean();
 
     // Prepare data for Excel
     const headers = [
       "ID",
-      "Name",
-      "Description",
-      "Price",
-      "Images (comma separated)",
-      "E-commerce Platform 1",
-      "E-commerce URL 1",
-      "E-commerce Platform 2",
-      "E-commerce URL 2",
-      "E-commerce Platform 3",
-      "E-commerce URL 3",
+      "Title",
+      "Author",
+      "Content",
+      "Image URL",
+      "Published",
       "Created At",
     ];
 
-    const rows = products.map((product) => {
-      const images = (product.images || []).join(", ");
-      const links = product.ecommerceLinks || [];
-
-      return [
-        product._id.toString(),
-        product.name,
-        product.description,
-        product.price,
-        images,
-        links[0]?.platform || "",
-        links[0]?.url || "",
-        links[1]?.platform || "",
-        links[1]?.url || "",
-        links[2]?.platform || "",
-        links[2]?.url || "",
-        new Date(product.createdAt).toISOString(),
-      ];
-    });
+    const rows = articles.map((article) => [
+      article._id.toString(),
+      article.title,
+      article.author,
+      article.content,
+      article.image || "",
+      article.published ? "Yes" : "No",
+      new Date(article.createdAt).toISOString(),
+    ]);
 
     // Create workbook and worksheet
     const wb = XLSX.utils.book_new();
@@ -81,20 +66,15 @@ export async function GET(request: NextRequest) {
     // Set column widths
     ws["!cols"] = [
       { wch: 26 }, // ID
-      { wch: 25 }, // Name
-      { wch: 40 }, // Description
-      { wch: 15 }, // Price
-      { wch: 40 }, // Images
-      { wch: 20 }, // Platform 1
-      { wch: 40 }, // URL 1
-      { wch: 20 }, // Platform 2
-      { wch: 40 }, // URL 2
-      { wch: 20 }, // Platform 3
-      { wch: 40 }, // URL 3
+      { wch: 30 }, // Title
+      { wch: 20 }, // Author
+      { wch: 60 }, // Content
+      { wch: 50 }, // Image URL
+      { wch: 12 }, // Published
       { wch: 25 }, // Created At
     ];
 
-    XLSX.utils.book_append_sheet(wb, ws, "Products");
+    XLSX.utils.book_append_sheet(wb, ws, "Articles");
 
     // Generate Excel file buffer
     const buffer = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });
@@ -103,11 +83,11 @@ export async function GET(request: NextRequest) {
       headers: {
         "Content-Type":
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": 'attachment; filename="products.xlsx"',
+        "Content-Disposition": 'attachment; filename="articles.xlsx"',
       },
     });
   } catch (error) {
-    console.error("Export products error:", error);
+    console.error("Export articles error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

@@ -1,9 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/db/connect";
+import AdminAccount from "@/lib/db/models/AdminAccount";
 import Article from "@/lib/db/models/Article";
 import { requireAuth } from "@/lib/auth/middleware";
 
-// GET /api/articles - Public (with pagination)
+const JWT_SECRET =
+  process.env.JWT_SECRET || "your-super-secret-key-change-this";
+const AUTH_COOKIE_NAME = "admin_auth_token";
+
+async function checkAuth(request: NextRequest) {
+  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
+  if (!token) return false;
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
+    const user = await AdminAccount.findById(decoded.id);
+    return user && user.status === "active";
+  } catch {
+    return false;
+  }
+}
+
+// GET /api/articles - Public (published only) or Admin (all)
 export async function GET(request: NextRequest) {
   try {
     await dbConnect();
@@ -13,7 +32,10 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
 
-    const query: any = { published: true };
+    // Check if authenticated (admin) — return all, otherwise only published
+    const isAdmin = await checkAuth(request);
+
+    const query: any = isAdmin ? {} : { published: true };
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: "i" } },

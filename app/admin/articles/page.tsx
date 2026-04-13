@@ -39,6 +39,17 @@ export default function AdminArticlesPage() {
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
+  // Export/Import state
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<{
+    created: number;
+    updated: number;
+    failed: number;
+    errors: string[];
+  } | null>(null);
+  const [importFile, setImportFile] = useState<File | null>(null);
+
   useEffect(() => {
     loadArticles();
   }, [currentPage, search]);
@@ -146,6 +157,56 @@ export default function AdminArticlesPage() {
     }
   }
 
+  // Export handler
+  async function handleExport() {
+    window.open("/api/articles/export", "_blank");
+  }
+
+  // Import handlers
+  function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImportFile(file);
+      setImportResult(null);
+    }
+  }
+
+  async function handleImport() {
+    if (!importFile) {
+      setError("Please select a file to import");
+      return;
+    }
+
+    setImporting(true);
+    setImportResult(null);
+    setError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", importFile);
+
+      const res = await fetch("/api/articles/import", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to import articles");
+        setImporting(false);
+        return;
+      }
+
+      setImportResult(data.results);
+      await loadArticles();
+    } catch {
+      setError("An error occurred during import");
+    } finally {
+      setImporting(false);
+    }
+  }
+
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -212,25 +273,69 @@ export default function AdminArticlesPage() {
             Create, edit, or delete articles and blog posts.
           </p>
         </div>
-        <button
-          onClick={openCreateModal}
-          className="inline-flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors text-sm font-medium"
-        >
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-          Add Article
-        </button>
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            Export Excel
+          </button>
+          <button
+            onClick={() => {
+              setIsImportModalOpen(true);
+              setImportFile(null);
+              setImportResult(null);
+            }}
+            className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
+          >
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            Import Excel
+          </button>
+          <button
+            onClick={openCreateModal}
+            className="inline-flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors text-sm font-medium"
+          >
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Add Article
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -595,6 +700,116 @@ export default function AdminArticlesPage() {
                   Delete
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import Modal */}
+      {isImportModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Import Articles from Excel
+              </h2>
+              <button
+                onClick={() => {
+                  setIsImportModalOpen(false);
+                  setImportFile(null);
+                  setImportResult(null);
+                }}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Instructions */}
+              <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-800">
+                <p className="font-medium mb-1">Excel File Format:</p>
+                <ul className="list-disc list-inside space-y-0.5 text-xs">
+                  <li>
+                    Columns: ID, Title, Author, Content, Image URL, Published
+                  </li>
+                  <li>Published: "Yes" or "No"</li>
+                  <li>Leave ID empty to create new articles</li>
+                  <li>Articles with matching ID will be updated</li>
+                </ul>
+              </div>
+
+              {/* File Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Select Excel File (.xlsx)
+                </label>
+                <input
+                  type="file"
+                  accept=".xlsx"
+                  onChange={handleFileSelect}
+                  className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-gray-900 file:text-white hover:file:bg-gray-800 file:cursor-pointer"
+                />
+                {importFile && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    Selected: {importFile.name}
+                  </p>
+                )}
+              </div>
+
+              {/* Import Button */}
+              <button
+                onClick={handleImport}
+                disabled={importing || !importFile}
+                className="w-full rounded-md bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {importing ? "Importing..." : "Import Articles"}
+              </button>
+
+              {/* Import Results */}
+              {importResult && (
+                <div className="space-y-3">
+                  <div className="rounded-md bg-green-50 p-3 text-sm text-green-800">
+                    <p className="font-medium">Import Complete!</p>
+                    <p>
+                      {importResult.created} created, {importResult.updated}{" "}
+                      updated, {importResult.failed} failed
+                    </p>
+                  </div>
+                  {importResult.errors.length > 0 && (
+                    <div className="rounded-md bg-yellow-50 p-3 text-sm text-yellow-800 max-h-32 overflow-y-auto">
+                      <p className="font-medium mb-1">Errors:</p>
+                      <ul className="list-disc list-inside space-y-0.5 text-xs">
+                        {importResult.errors.map((err, i) => (
+                          <li key={i}>{err}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => {
+                      setIsImportModalOpen(false);
+                      setImportFile(null);
+                      setImportResult(null);
+                    }}
+                    className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    Close
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
