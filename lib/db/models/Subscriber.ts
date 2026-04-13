@@ -23,19 +23,19 @@ const subscriberSchema = new mongoose.Schema<ISubscriber>(
     timestamps: true,
     toJSON: {
       virtuals: true,
-      transform: (doc, ret) => {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
+      transform: (_doc, ret) => {
+        (ret as any).id = (ret as any)._id.toString();
+        delete (ret as any)._id;
+        delete (ret as any).__v;
         return ret;
       },
     },
     toObject: {
       virtuals: true,
-      transform: (doc, ret) => {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
+      transform: (_doc, ret) => {
+        (ret as any).id = (ret as any)._id.toString();
+        delete (ret as any)._id;
+        delete (ret as any).__v;
         return ret;
       },
     },

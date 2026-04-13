@@ -36,21 +36,21 @@ const adminAccountSchema = new mongoose.Schema<IAdminAccount>(
     timestamps: true,
     toJSON: {
       virtuals: true,
-      transform: (doc, ret) => {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
-        delete ret.password; // Never expose password hashes
+      transform: (_doc, ret) => {
+        (ret as any).id = (ret as any)._id.toString();
+        delete (ret as any)._id;
+        delete (ret as any).__v;
+        delete (ret as any).password; // Never expose password hashes
         return ret;
       },
     },
     toObject: {
       virtuals: true,
-      transform: (doc, ret) => {
-        ret.id = ret._id.toString();
-        delete ret._id;
-        delete ret.__v;
-        delete ret.password; // Never expose password hashes
+      transform: (_doc, ret) => {
+        (ret as any).id = (ret as any)._id.toString();
+        delete (ret as any)._id;
+        delete (ret as any).__v;
+        delete (ret as any).password; // Never expose password hashes
         return ret;
       },
     },
