@@ -7,7 +7,8 @@ import * as XLSX from "xlsx";
 // GET /api/products/export - Export products as Excel file
 export async function GET(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

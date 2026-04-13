@@ -7,7 +7,8 @@ import * as XLSX from "xlsx";
 // GET /api/stores/export - Export stores as Excel
 export async function GET(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },
@@ -69,7 +70,8 @@ export async function GET(request: NextRequest) {
 // POST /api/stores/import - Import stores from Excel
 export async function POST(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

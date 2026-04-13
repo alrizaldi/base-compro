@@ -6,7 +6,8 @@ import { checkAuth } from "@/lib/auth/middleware";
 
 // GET /api/admin-accounts - Protected (super_admin only)
 export async function GET(request: NextRequest) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },
@@ -61,7 +62,8 @@ export async function GET(request: NextRequest) {
 
 // POST /api/admin-accounts - Protected (super_admin only)
 export async function POST(request: NextRequest) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },

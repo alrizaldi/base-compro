@@ -9,7 +9,8 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },
@@ -58,7 +59,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

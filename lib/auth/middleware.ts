@@ -90,19 +90,19 @@ export async function requireAuth(request: NextRequest) {
 
 /**
  * Lightweight auth check for App Router route handlers.
- * Returns true if authenticated, false otherwise. Does NOT return responses.
+ * Returns the user object if authenticated, null otherwise.
  */
-export async function checkAuth(request: NextRequest): Promise<boolean> {
+export async function checkAuth(request: NextRequest) {
   const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-  if (!token) return false;
+  if (!token) return null;
 
   try {
     const decoded = verifyToken(token) as { id: string };
     await dbConnect();
-    const user = await AdminAccount.findById(decoded.id);
-    return user && user.status === "active";
+    const user = await AdminAccount.findById(decoded.id).lean();
+    return user && user.status === "active" ? user : null;
   } catch {
-    return false;
+    return null;
   }
 }
 

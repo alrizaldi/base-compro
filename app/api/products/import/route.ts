@@ -7,7 +7,8 @@ import * as XLSX from "xlsx";
 // POST /api/products/import - Import products from Excel file
 export async function POST(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

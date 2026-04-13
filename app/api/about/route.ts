@@ -29,7 +29,8 @@ export async function GET() {
 
 // PUT /api/about - Protected
 export async function PUT(request: NextRequest) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },

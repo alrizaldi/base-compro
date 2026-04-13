@@ -33,9 +33,12 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  const user = await checkAuth(request);
+  if (!user) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {
@@ -74,9 +77,12 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  const user = await checkAuth(request);
+  if (!user) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {

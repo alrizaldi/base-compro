@@ -7,7 +7,8 @@ import * as XLSX from "xlsx";
 // GET /api/testimonials/export - Export testimonials as Excel
 export async function GET(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },
@@ -71,7 +72,8 @@ export async function GET(request: NextRequest) {
 // POST /api/testimonials/import - Import testimonials from Excel
 export async function POST(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

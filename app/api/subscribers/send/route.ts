@@ -7,7 +7,8 @@ import { sendAnnouncementEmail } from "@/lib/email";
 // POST /api/subscribers/send - Send announcement to all active subscribers
 export async function POST(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

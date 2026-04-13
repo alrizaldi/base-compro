@@ -9,7 +9,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },
@@ -64,7 +65,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },
@@ -75,9 +77,8 @@ export async function DELETE(
     await dbConnect();
     const { id } = await params;
 
-    // Prevent deleting own account
-    const userId = authResponse.headers.get("X-User-Id");
-    if (id === userId) {
+    // Get current user from checkAuth to prevent self-deletion
+    if (id === user?.id) {
       return NextResponse.json(
         { error: "Cannot delete your own account" },
         { status: 400 },

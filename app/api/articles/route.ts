@@ -14,7 +14,8 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search") || "";
 
     // Check if authenticated (admin) — return all, otherwise only published
-    const isAdmin = await checkAuth(request);
+    const user = await checkAuth(request);
+    const isAdmin = !!user;
 
     const query: any = isAdmin ? {} : { published: true };
     if (search) {
@@ -52,7 +53,8 @@ export async function GET(request: NextRequest) {
 
 // POST /api/articles - Protected
 export async function POST(request: NextRequest) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },

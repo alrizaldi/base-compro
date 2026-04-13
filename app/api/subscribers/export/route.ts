@@ -6,7 +6,8 @@ import Subscriber from "@/lib/db/models/Subscriber";
 // GET /api/subscribers/export - Export subscribers as CSV
 export async function GET(request: NextRequest) {
   try {
-    if (!(await checkAuth(request))) {
+    const user = await checkAuth(request);
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },
         { status: 401 },

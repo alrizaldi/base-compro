@@ -29,7 +29,8 @@ export async function POST(request: NextRequest) {
 
 // GET /api/contacts - Protected (admin view)
 export async function GET(request: NextRequest) {
-  if (!(await checkAuth(request))) {
+  const user = await checkAuth(request);
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required" },
       { status: 401 },
