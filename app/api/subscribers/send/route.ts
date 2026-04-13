@@ -47,6 +47,13 @@ export async function POST(request: NextRequest) {
     // Get all active subscribers
     const activeSubscribers = await Subscriber.find({ status: "active" });
 
+    console.log(
+      `[Broadcast] Found ${activeSubscribers.length} active subscribers`,
+    );
+    activeSubscribers.forEach((s, i) =>
+      console.log(`  [${i + 1}] ${s.email} (${s.name || "no name"})`),
+    );
+
     if (activeSubscribers.length === 0) {
       return NextResponse.json(
         { error: "No active subscribers to send to" },
@@ -59,6 +66,7 @@ export async function POST(request: NextRequest) {
     // Send emails one by one (batch sending)
     for (const subscriber of activeSubscribers) {
       try {
+        console.log(`[Broadcast] Sending to ${subscriber.email}...`);
         const emailResult = await sendAnnouncementEmail({
           to: subscriber.email,
           name: subscriber.name || "Subscriber",
@@ -69,17 +77,29 @@ export async function POST(request: NextRequest) {
 
         if (emailResult.success) {
           results.sent++;
+          console.log(
+            `[Broadcast] ✓ Sent to ${subscriber.email} (msg: ${emailResult.messageId})`,
+          );
         } else {
           results.failed++;
+          console.error(
+            `[Broadcast] ✗ Failed ${subscriber.email}:`,
+            emailResult.error,
+          );
           results.errors.push(
             `${subscriber.email}: ${emailResult.error || "Unknown error"}`,
           );
         }
-      } catch {
+      } catch (err) {
         results.failed++;
+        console.error(`[Broadcast] ✗ Error ${subscriber.email}:`, err);
         results.errors.push(`${subscriber.email}: Failed to send`);
       }
     }
+
+    console.log(
+      `[Broadcast] Complete: ${results.sent} sent, ${results.failed} failed`,
+    );
 
     return NextResponse.json({
       message: `Email sent: ${results.sent} succeeded, ${results.failed} failed`,
