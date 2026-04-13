@@ -89,7 +89,8 @@ export async function createProduct(data: ProductFormData): Promise<Product> {
       name: data.name,
       description: data.description,
       price: parseFloat(data.price),
-      image: data.image,
+      images: data.image ? [data.image] : [],
+      ecommerceLinks: [],
       createdAt: now,
       updatedAt: now,
     };
@@ -120,7 +121,8 @@ export async function updateProduct(
       name: data.name,
       description: data.description,
       price: parseFloat(data.price),
-      image: data.image,
+      images: data.image ? [data.image] : mockProductsData[index].images,
+      ecommerceLinks: mockProductsData[index].ecommerceLinks || [],
       updatedAt: new Date().toISOString(),
     };
     return mockProductsData[index];
