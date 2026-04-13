@@ -40,14 +40,20 @@ export function middleware(request: NextRequest) {
     `[Middleware] ${pathname} - Token: ${!!token}, Valid: ${isValidToken}`,
   );
 
-  // If on login page
-  if (pathname === "/admin/login") {
-    // If authenticated, redirect to admin dashboard
+  // Public pages that don't require authentication
+  const publicPaths = [
+    "/admin/login",
+    "/admin/forgot-password",
+    "/admin/reset-password",
+  ];
+
+  if (publicPaths.some((path) => pathname.startsWith(path))) {
+    // If authenticated and on login/forgot-password/reset-password, redirect to dashboard
     if (isValidToken) {
       const adminUrl = new URL("/admin", request.url);
       return NextResponse.redirect(adminUrl);
     }
-    // Not authenticated, allow access to login page
+    // Not authenticated, allow access to public pages
     return NextResponse.next();
   }
 

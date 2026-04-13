@@ -36,13 +36,23 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (pathname === "/admin/login") return;
+    if (pathname === "/admin/forgot-password") return;
+    if (pathname === "/admin/reset-password") return;
     if (!loading && !user) {
       router.push("/admin/login");
     }
   }, [user, loading, pathname, router]);
 
-  // Allow login page to render without auth
+  // Allow login, forgot-password, and reset-password pages to render without auth
   if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
+  if (pathname === "/admin/forgot-password") {
+    return <>{children}</>;
+  }
+
+  if (pathname === "/admin/reset-password") {
     return <>{children}</>;
   }
 

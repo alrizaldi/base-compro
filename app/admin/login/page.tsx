@@ -91,6 +91,15 @@ export default function AdminLoginPage() {
             />
           </div>
 
+          <div className="flex items-center justify-end">
+            <a
+              href="/admin/forgot-password"
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              Forgot password?
+            </a>
+          </div>
+
           <button
             type="submit"
             disabled={loading}

@@ -7,6 +7,8 @@ export interface IAdminAccount extends mongoose.Document {
   role: "super_admin" | "admin" | "editor";
   status: "active" | "suspended";
   lastActiveAt: Date;
+  resetToken?: string;
+  resetTokenExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +29,8 @@ const adminAccountSchema = new mongoose.Schema<IAdminAccount>(
       default: "active",
     },
     lastActiveAt: { type: Date, default: Date.now },
+    resetToken: { type: String, default: null },
+    resetTokenExpiry: { type: Date, default: null },
   },
   {
     timestamps: true,
