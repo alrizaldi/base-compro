@@ -1,26 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/db/connect";
-import AdminAccount from "@/lib/db/models/AdminAccount";
 import Article from "@/lib/db/models/Article";
-import { requireAuth } from "@/lib/auth/middleware";
-
-const JWT_SECRET =
-  process.env.JWT_SECRET || "your-super-secret-key-change-this";
-const AUTH_COOKIE_NAME = "admin_auth_token";
-
-async function checkAuth(request: NextRequest) {
-  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-  if (!token) return false;
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
-    const user = await AdminAccount.findById(decoded.id);
-    return user && user.status === "active";
-  } catch {
-    return false;
-  }
-}
+import { checkAuth } from "@/lib/auth/middleware";
 
 // GET /api/articles - Public (published only) or Admin (all)
 export async function GET(request: NextRequest) {
@@ -71,9 +52,11 @@ export async function GET(request: NextRequest) {
 
 // POST /api/articles - Protected
 export async function POST(request: NextRequest) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  if (!(await checkAuth(request))) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {

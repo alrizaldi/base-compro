@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth/middleware";
+import { checkAuth } from "@/lib/auth/middleware";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 const USE_MOCK = !process.env.NEXT_PUBLIC_API_URL;
@@ -13,7 +13,12 @@ import { mockContactSubmissions } from "@/shared/mockData/contacts";
 
 export async function GET(request: NextRequest) {
   try {
-    await requireAuth(request);
+    if (!(await checkAuth(request))) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 },
+      );
+    }
 
     let productsCount = mockProducts.length;
     let articlesCount = mockArticles.length;

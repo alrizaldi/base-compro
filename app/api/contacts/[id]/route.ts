@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db/connect";
 import ContactSubmission from "@/lib/db/models/ContactSubmission";
-import { requireAuth } from "@/lib/auth/middleware";
+import { checkAuth } from "@/lib/auth/middleware";
 
 // PUT /api/contacts/[id] - Protected (update status)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  if (!(await checkAuth(request))) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {
@@ -21,14 +23,11 @@ export async function PUT(
     const contact = await ContactSubmission.findByIdAndUpdate(
       id,
       { status: body.status },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!contact) {
-      return NextResponse.json(
-        { error: "Contact not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
     return NextResponse.json(contact);
@@ -36,7 +35,7 @@ export async function PUT(
     console.error("Update contact error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -44,11 +43,13 @@ export async function PUT(
 // DELETE /api/contacts/[id] - Protected
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  if (!(await checkAuth(request))) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {
@@ -58,10 +59,7 @@ export async function DELETE(
     const contact = await ContactSubmission.findByIdAndDelete(id);
 
     if (!contact) {
-      return NextResponse.json(
-        { error: "Contact not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
     return NextResponse.json({ message: "Contact deleted successfully" });
@@ -69,7 +67,7 @@ export async function DELETE(
     console.error("Delete contact error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

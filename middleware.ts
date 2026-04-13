@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken";
 export const runtime = "nodejs";
 
 const AUTH_COOKIE_NAME = "admin_auth_token";
-const JWT_SECRET =
-  process.env.JWT_SECRET || "your-super-secret-key-change-this";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 function verifyToken(
   token: string,
 ): { id: string; email: string; role: string } | null {
+  if (!JWT_SECRET) return null;
   try {
     return jwt.verify(token, JWT_SECRET) as {
       id: string;

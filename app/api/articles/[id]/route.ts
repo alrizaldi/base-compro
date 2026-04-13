@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db/connect";
 import Article from "@/lib/db/models/Article";
-import { requireAuth } from "@/lib/auth/middleware";
+import { checkAuth } from "@/lib/auth/middleware";
 
 // GET /api/articles/[id] - Public
 export async function GET(
@@ -33,9 +33,11 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  if (!(await checkAuth(request))) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {
@@ -74,9 +76,11 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  if (!(await checkAuth(request))) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {

@@ -1,26 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { checkAuth } from "@/lib/auth/middleware";
 import dbConnect from "@/lib/db/connect";
-import AdminAccount from "@/lib/db/models/AdminAccount";
 import Subscriber from "@/lib/db/models/Subscriber";
 import { sendAnnouncementEmail } from "@/lib/email";
-
-const JWT_SECRET =
-  process.env.JWT_SECRET || "your-super-secret-key-change-this";
-const AUTH_COOKIE_NAME = "admin_auth_token";
-
-async function checkAuth(request: NextRequest) {
-  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-  if (!token) return false;
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { id: string };
-    const user = await AdminAccount.findById(decoded.id);
-    return user && user.status === "active";
-  } catch {
-    return false;
-  }
-}
 
 // POST /api/subscribers/send - Send announcement to all active subscribers
 export async function POST(request: NextRequest) {

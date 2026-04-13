@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db/connect";
 import Store from "@/lib/db/models/Store";
-import { requireAuth } from "@/lib/auth/middleware";
+import { checkAuth } from "@/lib/auth/middleware";
 
 // GET /api/stores - Public
 export async function GET(request: NextRequest) {
@@ -49,9 +49,11 @@ export async function GET(request: NextRequest) {
 
 // POST /api/stores - Protected
 export async function POST(request: NextRequest) {
-  const authResponse = await requireAuth(request);
-  if (authResponse.status !== 200 && authResponse.status !== 302) {
-    return authResponse;
+  if (!(await checkAuth(request))) {
+    return NextResponse.json(
+      { error: "Authentication required" },
+      { status: 401 },
+    );
   }
 
   try {

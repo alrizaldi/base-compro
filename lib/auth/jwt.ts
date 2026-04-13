@@ -8,9 +8,15 @@ export interface JwtPayload {
   exp?: number;
 }
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || "your-super-secret-key-change-this";
 const JWT_EXPIRATION_HOURS = 6;
+
+function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET environment variable is required");
+  }
+  return secret;
+}
 
 /**
  * Generate a JWT token for an authenticated user.
@@ -21,7 +27,7 @@ export function generateToken(payload: {
   email: string;
   role: string;
 }): string {
-  return jwt.sign(payload, JWT_SECRET, {
+  return jwt.sign(payload, getJwtSecret(), {
     expiresIn: `${JWT_EXPIRATION_HOURS}h`,
   });
 }
@@ -32,7 +38,7 @@ export function generateToken(payload: {
  */
 export function verifyToken(token: string): JwtPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as JwtPayload;
+    return jwt.verify(token, getJwtSecret()) as JwtPayload;
   } catch {
     return null;
   }

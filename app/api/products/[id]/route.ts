@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db/connect";
 import Product from "@/lib/db/models/Product";
-import { requireAuth } from "@/lib/auth/middleware";
+import { checkAuth } from "@/lib/auth/middleware";
 
 // GET /api/products/[id] - Public
 export async function GET(
