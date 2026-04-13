@@ -21,7 +21,7 @@ function verifyToken(
   }
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Get the auth token
