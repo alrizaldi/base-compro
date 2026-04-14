@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
+import { writeFile, mkdir } from "fs/promises";
+import { existsSync } from "fs";
+import path from "path";
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,16 +40,35 @@ export async function POST(request: NextRequest) {
     const ext = file.name.split(".").pop();
     const timestamp = Date.now();
     const randomStr = Math.random().toString(36).substring(2, 8);
-    const filename = `uploads/logo-${timestamp}-${randomStr}.${ext}`;
+    const filename = `logo-${timestamp}-${randomStr}.${ext}`;
 
-    // Upload to Vercel Blob
-    const blob = await put(filename, file, {
-      access: "public",
-      addRandomSuffix: false,
-    });
+    // Check if we're on Vercel (has BLOB token) or local
+    const isVercel = !!process.env.BLOB_READ_WRITE_TOKEN;
 
-    // Return public URL
-    return NextResponse.json({ url: blob.url });
+    if (isVercel) {
+      // Upload to Vercel Blob (production)
+      const blob = await put(`uploads/${filename}`, file, {
+        access: "public",
+        addRandomSuffix: false,
+      });
+
+      // Return Vercel Blob URL
+      return NextResponse.json({ url: blob.url });
+    } else {
+      // Upload to local file system (development)
+      const uploadsDir = path.join(process.cwd(), "public", "uploads");
+      if (!existsSync(uploadsDir)) {
+        await mkdir(uploadsDir, { recursive: true });
+      }
+
+      const filePath = path.join(uploadsDir, filename);
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      await writeFile(filePath, buffer);
+
+      // Return local URL
+      return NextResponse.json({ url: `/uploads/${filename}` });
+    }
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json(
