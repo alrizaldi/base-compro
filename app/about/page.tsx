@@ -219,19 +219,19 @@ export default function AboutPage() {
     return (
       <PageLayout>
         <div className="flex-1 animate-pulse">
-          <div className="bg-gray-200 py-24 sm:py-32" />
+          <div className="bg-blue-100 py-24 sm:py-32" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="space-y-4">
-                <div className="h-8 bg-gray-200 rounded w-1/3" />
-                <div className="h-4 bg-gray-200 rounded w-full" />
-                <div className="h-4 bg-gray-200 rounded w-5/6" />
+                <div className="h-8 bg-blue-100 rounded w-1/3" />
+                <div className="h-4 bg-blue-100 rounded w-full" />
+                <div className="h-4 bg-blue-100 rounded w-5/6" />
               </div>
-              <div className="bg-gray-200 rounded-2xl aspect-[4/3]" />
+              <div className="bg-blue-100 rounded-2xl aspect-[4/3]" />
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="h-24 bg-gray-200 rounded-xl" />
+                <div key={i} className="h-24 bg-blue-100 rounded-xl" />
               ))}
             </div>
           </div>
@@ -244,7 +244,7 @@ export default function AboutPage() {
     return (
       <PageLayout>
         <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Failed to Load</h2>
+          <h2 className="text-2xl font-bold text-[#8AAAE5]">Failed to Load</h2>
           <p className="mt-2 text-gray-600">{error}</p>
         </div>
       </PageLayout>
@@ -255,24 +255,24 @@ export default function AboutPage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 sm:py-24">
+        <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               {about.heroTitle}
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               {about.heroSubtitle}
             </p>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-blue-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-blue-100">
               {about.stats.map((stat, i) => (
                 <div key={i} className="py-10 px-6 text-center">
-                  <div className="text-3xl sm:text-4xl font-bold text-gray-900">
+                  <div className="text-3xl sm:text-4xl font-bold text-[#8AAAE5]">
                     {stat.value}
                   </div>
                   <div className="mt-1 text-sm text-gray-600">{stat.label}</div>
@@ -286,7 +286,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-[#8AAAE5] mb-6">
                 {about.storyTitle}
               </h2>
               {about.storyContent.split("\n").map((paragraph, i) => {
@@ -299,7 +299,7 @@ export default function AboutPage() {
                 );
               })}
             </div>
-            <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-gray-100">
+            <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-blue-50">
               <img
                 src={about.storyImage}
                 alt="Our Story"
@@ -310,10 +310,10 @@ export default function AboutPage() {
         </div>
 
         {/* Company Values */}
-        <div className="bg-gray-50 py-16 sm:py-24">
+        <div className="bg-blue-50 py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900">Our Values</h2>
+              <h2 className="text-3xl font-bold text-[#8AAAE5]">Our Values</h2>
               <p className="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">
                 The principles that guide everything we do.
               </p>
@@ -322,9 +322,9 @@ export default function AboutPage() {
               {about.companyValues.map((value) => (
                 <div
                   key={value.id}
-                  className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-xl p-6 border border-blue-100 hover:shadow-lg transition-shadow"
                 >
-                  <div className="w-14 h-14 rounded-lg bg-gray-900 text-white flex items-center justify-center mb-4">
+                  <div className="w-14 h-14 rounded-lg bg-[#8AAAE5] text-white flex items-center justify-center mb-4">
                     {iconMap[value.icon] || iconMap.quality}
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -342,7 +342,7 @@ export default function AboutPage() {
         {/* Team */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">Meet Our Team</h2>
+            <h2 className="text-3xl font-bold text-[#8AAAE5]">Meet Our Team</h2>
             <p className="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">
               The people behind {about.logoText} who make it all possible.
             </p>
@@ -350,14 +350,14 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {about.teamMembers.map((member) => (
               <div key={member.id} className="text-center group">
-                <div className="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4 border-4 border-gray-100 group-hover:border-gray-900 transition-colors">
+                <div className="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4 border-4 border-blue-100 group-hover:border-[#8AAAE5] transition-colors">
                   <img
                     src={member.avatar}
                     alt={member.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h3 className="font-semibold text-gray-900">{member.name}</h3>
+                <h3 className="font-semibold text-[#8AAAE5]">{member.name}</h3>
                 <p className="text-sm text-gray-500 mt-0.5">{member.role}</p>
                 <p className="text-sm text-gray-600 mt-2">{member.bio}</p>
               </div>

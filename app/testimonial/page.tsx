@@ -92,12 +92,12 @@ export default function TestimonialPage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 sm:py-24">
+        <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               Customer Testimonials
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               See what our customers have to say about their experience with our
               products and services.
             </p>
@@ -117,11 +117,11 @@ export default function TestimonialPage() {
                 value={searchInput}
                 onChange={handleSearchChange}
                 placeholder="Search testimonials..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                className="flex-1 px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm font-medium transition-colors"
+                className="px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] text-sm font-medium transition-colors"
               >
                 Search
               </button>
@@ -133,7 +133,7 @@ export default function TestimonialPage() {
                     setSearchInput("");
                     setCurrentPage(1);
                   }}
-                  className="px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
+                  className="px-4 py-3 bg-white border border-blue-200 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
                 >
                   Clear
                 </button>
@@ -157,16 +157,16 @@ export default function TestimonialPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-xl p-6">
+                  <div className="bg-blue-100 rounded-xl p-6">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 bg-gray-300 rounded-full" />
+                      <div className="w-12 h-12 bg-blue-200 rounded-full" />
                       <div className="flex-1">
-                        <div className="h-4 bg-gray-300 rounded w-1/2 mb-2" />
-                        <div className="h-3 bg-gray-300 rounded w-1/3" />
+                        <div className="h-4 bg-blue-200 rounded w-1/2 mb-2" />
+                        <div className="h-3 bg-blue-200 rounded w-1/3" />
                       </div>
                     </div>
-                    <div className="h-3 bg-gray-300 rounded w-full mb-2" />
-                    <div className="h-3 bg-gray-300 rounded w-5/6" />
+                    <div className="h-3 bg-blue-200 rounded w-full mb-2" />
+                    <div className="h-3 bg-blue-200 rounded w-5/6" />
                   </div>
                 </div>
               ))}
@@ -186,7 +186,7 @@ export default function TestimonialPage() {
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">
+              <h3 className="mt-4 text-lg font-medium text-[#8AAAE5]">
                 No testimonials found
               </h3>
               <p className="mt-2 text-sm text-gray-500">
@@ -199,7 +199,7 @@ export default function TestimonialPage() {
                 {testimonials.map((testimonial) => (
                   <div
                     key={testimonial.id}
-                    className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                    className="bg-white rounded-xl border border-blue-100 p-6 hover:shadow-lg transition-shadow"
                   >
                     <div className="flex items-center gap-3 mb-4">
                       {testimonial.avatar ? (
@@ -209,12 +209,12 @@ export default function TestimonialPage() {
                           className="w-12 h-12 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-medium">
+                        <div className="w-12 h-12 rounded-full bg-[#8AAAE5] text-white flex items-center justify-center text-sm font-medium">
                           {testimonial.name.charAt(0)}
                         </div>
                       )}
                       <div>
-                        <h3 className="font-semibold text-gray-900">
+                        <h3 className="font-semibold text-[#8AAAE5]">
                           {testimonial.name}
                         </h3>
                         <p className="text-sm text-gray-500">
@@ -249,7 +249,7 @@ export default function TestimonialPage() {
                     <button
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 text-sm font-medium bg-white border border-blue-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       Previous
                     </button>
@@ -260,8 +260,8 @@ export default function TestimonialPage() {
                           onClick={() => setCurrentPage(page)}
                           className={`w-10 h-10 text-sm font-medium rounded-lg transition-colors ${
                             page === currentPage
-                              ? "bg-gray-900 text-white"
-                              : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                              ? "bg-[#8AAAE5] text-white"
+                              : "bg-white border border-blue-200 text-gray-700 hover:bg-gray-50"
                           }`}
                         >
                           {page}
@@ -273,7 +273,7 @@ export default function TestimonialPage() {
                         setCurrentPage((p) => Math.min(totalPages, p + 1))
                       }
                       disabled={currentPage === totalPages}
-                      className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 text-sm font-medium bg-white border border-blue-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       Next
                     </button>

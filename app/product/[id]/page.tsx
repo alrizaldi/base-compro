@@ -67,14 +67,14 @@ export default function ProductDetailPage() {
       <PageLayout>
         <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-pulse">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="aspect-square bg-gray-200 rounded-2xl" />
+            <div className="aspect-square bg-blue-100 rounded-2xl" />
             <div>
-              <div className="h-8 bg-gray-200 rounded w-3/4 mb-4" />
-              <div className="h-6 bg-gray-200 rounded w-1/3 mb-6" />
-              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-5/6 mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-2/3 mb-8" />
-              <div className="h-12 bg-gray-200 rounded w-1/2" />
+              <div className="h-8 bg-blue-100 rounded w-3/4 mb-4" />
+              <div className="h-6 bg-blue-100 rounded w-1/3 mb-6" />
+              <div className="h-4 bg-blue-100 rounded w-full mb-2" />
+              <div className="h-4 bg-blue-100 rounded w-5/6 mb-2" />
+              <div className="h-4 bg-blue-100 rounded w-2/3 mb-8" />
+              <div className="h-12 bg-blue-100 rounded w-1/2" />
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function ProductDetailPage() {
               d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <h2 className="mt-4 text-2xl font-bold text-gray-900">
+          <h2 className="mt-4 text-2xl font-bold text-[#8AAAE5]">
             Product Not Found
           </h2>
           <p className="mt-2 text-gray-600">
@@ -108,7 +108,7 @@ export default function ProductDetailPage() {
           </p>
           <button
             onClick={() => router.push("/product")}
-            className="mt-6 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition-colors"
+            className="mt-6 px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] font-medium transition-colors"
           >
             Back to Products
           </button>
@@ -125,19 +125,19 @@ export default function ProductDetailPage() {
           <nav className="flex text-sm text-gray-500">
             <button
               onClick={() => router.push("/")}
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-[#8AAAE5] transition-colors"
             >
               Home
             </button>
             <span className="mx-2">/</span>
             <button
               onClick={() => router.push("/product")}
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-[#8AAAE5] transition-colors"
             >
               Products
             </button>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium truncate">
+            <span className="text-[#8AAAE5] font-medium truncate">
               {product.name}
             </span>
           </nav>
@@ -149,7 +149,7 @@ export default function ProductDetailPage() {
             {/* Images Gallery */}
             <div>
               {/* Main Image */}
-              <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden mb-4">
+              <div className="aspect-square bg-blue-50 rounded-2xl overflow-hidden mb-4">
                 {product.images && product.images.length > 0 ? (
                   <img
                     src={
@@ -161,7 +161,7 @@ export default function ProductDetailPage() {
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <svg
-                      className="w-24 h-24 text-gray-300"
+                      className="w-24 h-24 text-blue-300"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -186,8 +186,8 @@ export default function ProductDetailPage() {
                       onClick={() => setSelectedImageIndex(index)}
                       className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
                         selectedImageIndex === index
-                          ? "border-gray-900"
-                          : "border-transparent hover:border-gray-300"
+                          ? "border-[#8AAAE5]"
+                          : "border-transparent hover:border-blue-200"
                       }`}
                     >
                       <img
@@ -203,12 +203,12 @@ export default function ProductDetailPage() {
 
             {/* Info */}
             <div className="flex flex-col">
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              <h1 className="text-3xl sm:text-4xl font-bold text-[#8AAAE5]">
                 {product.name}
               </h1>
 
               <div className="mt-4">
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-3xl font-bold text-[#8AAAE5]">
                   {formatCurrency(product.price)}
                 </span>
               </div>
@@ -220,12 +220,12 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Divider */}
-              <div className="mt-8 border-t border-gray-200" />
+              <div className="mt-8 border-t border-blue-100" />
 
               {/* E-commerce Links */}
               {product.ecommerceLinks && product.ecommerceLinks.length > 0 && (
                 <div className="mt-8">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  <h3 className="text-lg font-semibold text-[#8AAAE5] mb-4">
                     Buy on E-commerce
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -237,7 +237,7 @@ export default function ProductDetailPage() {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex flex-col items-center justify-center p-4 bg-white border-2 border-gray-200 rounded-xl hover:border-gray-900 hover:shadow-md transition-all group"
+                          className="flex flex-col items-center justify-center p-4 bg-white border-2 border-blue-100 rounded-xl hover:border-[#8AAAE5] hover:shadow-md transition-all group"
                         >
                           {logoUrl ? (
                             <img
@@ -256,12 +256,12 @@ export default function ProductDetailPage() {
                             />
                           ) : null}
                           <span
-                            className={`text-sm font-semibold text-gray-900 ${logoUrl ? "" : "hidden"}`}
+                            className={`text-sm font-semibold text-[#8AAAE5] ${logoUrl ? "" : "hidden"}`}
                           >
                             {link.platform}
                           </span>
                           {!logoUrl && (
-                            <span className="text-sm font-semibold text-gray-900">
+                            <span className="text-sm font-semibold text-[#8AAAE5]">
                               {link.platform}
                             </span>
                           )}
@@ -277,7 +277,7 @@ export default function ProductDetailPage() {
 
               {(!product.ecommerceLinks ||
                 product.ecommerceLinks.length === 0) && (
-                <div className="mt-8 p-6 bg-gray-50 rounded-xl text-center">
+                <div className="mt-8 p-6 bg-blue-50 rounded-xl text-center">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400 mb-3"
                     fill="none"
@@ -298,7 +298,7 @@ export default function ProductDetailPage() {
               )}
 
               {/* Divider */}
-              <div className="mt-8 border-t border-gray-200" />
+              <div className="mt-8 border-t border-blue-100" />
 
               {/* Product Meta */}
               <div className="mt-6 space-y-3 text-sm text-gray-600">

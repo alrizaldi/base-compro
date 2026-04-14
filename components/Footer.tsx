@@ -46,7 +46,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-[#8AAAE5] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -58,7 +58,7 @@ export default function Footer() {
                 <span className="text-xl font-bold text-white">{logoText}</span>
               )}
             </Link>
-            <p className="mt-4 text-sm text-gray-400 leading-relaxed">
+            <p className="mt-4 text-sm text-blue-100 leading-relaxed">
               Premium tech essentials designed to elevate your workspace and
               daily life.
             </p>
@@ -75,7 +75,7 @@ export default function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-400 hover:text-white transition-colors"
+                      className="text-sm text-blue-100 hover:text-white transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -87,15 +87,15 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500">
+        <div className="mt-12 pt-8 border-t border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-blue-200">
             &copy; {new Date().getFullYear()} YourBrand. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             {/* Social Icons */}
             <a
               href="#"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-blue-100 hover:text-white transition-colors"
               aria-label="Twitter"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -104,7 +104,7 @@ export default function Footer() {
             </a>
             <a
               href="#"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-blue-100 hover:text-white transition-colors"
               aria-label="Instagram"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@ export default function Footer() {
             </a>
             <a
               href="#"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-blue-100 hover:text-white transition-colors"
               aria-label="LinkedIn"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

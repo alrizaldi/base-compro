@@ -49,15 +49,15 @@ export default function ArticleDetailPage() {
     return (
       <PageLayout>
         <div className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4" />
-          <div className="h-10 bg-gray-200 rounded w-3/4 mb-4" />
-          <div className="h-4 bg-gray-200 rounded w-1/3 mb-8" />
-          <div className="aspect-video bg-gray-200 rounded-xl mb-8" />
+          <div className="h-4 bg-blue-100 rounded w-1/4 mb-4" />
+          <div className="h-10 bg-blue-100 rounded w-3/4 mb-4" />
+          <div className="h-4 bg-blue-100 rounded w-1/3 mb-8" />
+          <div className="aspect-video bg-blue-100 rounded-xl mb-8" />
           <div className="space-y-3">
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="h-4 bg-gray-200 rounded"
+                className="h-4 bg-blue-100 rounded"
                 style={{ width: `${Math.random() * 40 + 60}%` }}
               />
             ))}
@@ -84,7 +84,7 @@ export default function ArticleDetailPage() {
               d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <h2 className="mt-4 text-2xl font-bold text-gray-900">
+          <h2 className="mt-4 text-2xl font-bold text-[#8AAAE5]">
             Article Not Found
           </h2>
           <p className="mt-2 text-gray-600">
@@ -93,7 +93,7 @@ export default function ArticleDetailPage() {
           </p>
           <button
             onClick={() => router.push("/article")}
-            className="mt-6 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition-colors"
+            className="mt-6 px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] font-medium transition-colors"
           >
             Back to Articles
           </button>
@@ -110,19 +110,19 @@ export default function ArticleDetailPage() {
           <nav className="flex text-sm text-gray-500">
             <button
               onClick={() => router.push("/")}
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-[#8AAAE5] transition-colors"
             >
               Home
             </button>
             <span className="mx-2">/</span>
             <button
               onClick={() => router.push("/article")}
-              className="hover:text-gray-900 transition-colors"
+              className="hover:text-[#8AAAE5] transition-colors"
             >
               Articles
             </button>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium truncate">
+            <span className="text-[#8AAAE5] font-medium truncate">
               {article.title}
             </span>
           </nav>
@@ -139,7 +139,7 @@ export default function ArticleDetailPage() {
               <span>&middot;</span>
               <span>{article.author}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#8AAAE5] leading-tight">
               {article.title}
             </h1>
           </header>
@@ -163,28 +163,28 @@ export default function ArticleDetailPage() {
               [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3
               [&>p]:text-gray-700 [&>p]:leading-relaxed [&>p]:mb-4 [&>p]:text-justify
               [&>a]:text-blue-600 [&>a]:underline
-              [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600
+              [&>blockquote]:border-l-4 [&>blockquote]:border-blue-200 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600
               [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:my-4
               [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:my-4
               [&>li]:mb-2
-              [&>pre]:bg-gray-900 [&>pre]:text-white [&>pre]:p-4 [&>pre]:rounded-lg [&>pre]:overflow-x-auto [&>pre]:my-4
-              [&>code]:bg-gray-100 [&>code]:px-1 [&>code]:py-0.5 [&>code]:rounded [&>code]:font-mono [&>code]:text-sm
+              [&>pre]:bg-[#8AAAE5] [&>pre]:text-white [&>pre]:p-4 [&>pre]:rounded-lg [&>pre]:overflow-x-auto [&>pre]:my-4
+              [&>code]:bg-blue-100 [&>code]:px-1 [&>code]:py-0.5 [&>code]:rounded [&>code]:font-mono [&>code]:text-sm
               [&>pre_code]:bg-transparent [&>pre_code]:p-0 [&>pre_code]:text-inherit
-              [&>hr]:border-gray-300 [&>hr]:my-8
+              [&>hr]:border-blue-200 [&>hr]:my-8
               [&>img]:rounded-lg [&>img]:my-6 [&>img]:max-w-full [&>img]:h-auto"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
 
           {/* Divider */}
-          <div className="mt-12 pt-8 border-t border-gray-200" />
+          <div className="mt-12 pt-8 border-t border-blue-100" />
 
           {/* Author Bio */}
-          <div className="mt-8 flex items-center gap-4 p-6 bg-gray-50 rounded-xl">
-            <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center text-lg font-bold flex-shrink-0">
+          <div className="mt-8 flex items-center gap-4 p-6 bg-blue-50 rounded-xl">
+            <div className="w-12 h-12 rounded-full bg-[#8AAAE5] text-white flex items-center justify-center text-lg font-bold flex-shrink-0">
               {article.author.charAt(0)}
             </div>
             <div>
-              <p className="font-semibold text-gray-900">{article.author}</p>
+              <p className="font-semibold text-[#8AAAE5]">{article.author}</p>
               <p className="text-sm text-gray-500">Author</p>
             </div>
           </div>

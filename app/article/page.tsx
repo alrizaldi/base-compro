@@ -82,12 +82,12 @@ export default function ArticlePage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 sm:py-24">
+        <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               Articles & News
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               Stay up to date with the latest insights, tutorials, and industry
               trends.
             </p>
@@ -106,11 +106,11 @@ export default function ArticlePage() {
                 value={searchInput}
                 onChange={handleSearchChange}
                 placeholder="Search articles..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                className="flex-1 px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm font-medium transition-colors"
+                className="px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] text-sm font-medium transition-colors"
               >
                 Search
               </button>
@@ -147,10 +147,10 @@ export default function ArticlePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-xl aspect-video mb-4" />
-                  <div className="h-4 bg-gray-200 rounded w-1/4 mb-2" />
-                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-2" />
-                  <div className="h-4 bg-gray-200 rounded w-full" />
+                  <div className="bg-blue-100 rounded-xl aspect-video mb-4" />
+                  <div className="h-4 bg-blue-100 rounded w-1/4 mb-2" />
+                  <div className="h-6 bg-blue-100 rounded w-3/4 mb-2" />
+                  <div className="h-4 bg-blue-100 rounded w-full" />
                 </div>
               ))}
             </div>
@@ -169,7 +169,7 @@ export default function ArticlePage() {
                   d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">
+              <h3 className="mt-4 text-lg font-medium text-[#8AAAE5]">
                 No articles found
               </h3>
               <p className="mt-2 text-sm text-gray-500">
@@ -185,10 +185,10 @@ export default function ArticlePage() {
                   <Link
                     key={article.id}
                     href={`/article/${article.id}`}
-                    className="group flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                    className="group flex flex-col bg-white rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow duration-300"
                   >
                     {/* Image */}
-                    <div className="aspect-video bg-gray-100 overflow-hidden">
+                    <div className="aspect-video bg-blue-50 overflow-hidden">
                       {article.image ? (
                         <img
                           src={article.image}
@@ -221,14 +221,14 @@ export default function ArticlePage() {
                         <span>&middot;</span>
                         <span>{article.author}</span>
                       </div>
-                      <h2 className="text-xl font-semibold text-gray-900 group-hover:text-gray-700 transition-colors line-clamp-2">
+                      <h2 className="text-xl font-semibold text-[#8AAAE5] group-hover:text-gray-700 transition-colors line-clamp-2">
                         {article.title}
                       </h2>
                       <p className="mt-3 text-sm text-gray-600 line-clamp-3">
                         {truncate(stripHtml(article.content), 150)}
                       </p>
                       <div className="mt-4">
-                        <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700">
+                        <span className="text-sm font-medium text-[#8AAAE5] group-hover:text-gray-700">
                           Read more &rarr;
                         </span>
                       </div>
@@ -256,7 +256,7 @@ export default function ArticlePage() {
                     <button
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 text-sm font-medium bg-white border border-blue-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       Previous
                     </button>
@@ -267,8 +267,8 @@ export default function ArticlePage() {
                           onClick={() => setCurrentPage(page)}
                           className={`w-10 h-10 text-sm font-medium rounded-lg transition-colors ${
                             page === currentPage
-                              ? "bg-gray-900 text-white"
-                              : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                              ? "bg-[#8AAAE5] text-white"
+                              : "bg-white border border-blue-200 text-gray-700 hover:bg-gray-50"
                           }`}
                         >
                           {page}
@@ -280,7 +280,7 @@ export default function ArticlePage() {
                         setCurrentPage((p) => Math.min(totalPages, p + 1))
                       }
                       disabled={currentPage === totalPages}
-                      className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 text-sm font-medium bg-white border border-blue-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       Next
                     </button>

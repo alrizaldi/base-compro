@@ -59,12 +59,12 @@ export default function StorePage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 sm:py-24">
+        <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               Our Stores
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               Visit us at any of our locations across Indonesia.
             </p>
           </div>
@@ -82,11 +82,11 @@ export default function StorePage() {
                 value={searchInput}
                 onChange={handleSearchChange}
                 placeholder="Search stores by name or city..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                className="flex-1 px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm font-medium transition-colors"
+                className="px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] text-sm font-medium transition-colors"
               >
                 Search
               </button>
@@ -98,7 +98,7 @@ export default function StorePage() {
                     setSearchInput("");
                     setCurrentPage(1);
                   }}
-                  className="px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
+                  className="px-4 py-3 bg-white border border-blue-200 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
                 >
                   Clear
                 </button>
@@ -123,10 +123,10 @@ export default function StorePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-xl aspect-[4/3] mb-4" />
-                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-2" />
-                  <div className="h-4 bg-gray-200 rounded w-full mb-1" />
-                  <div className="h-4 bg-gray-200 rounded w-1/2" />
+                  <div className="bg-blue-100 rounded-xl aspect-[4/3] mb-4" />
+                  <div className="h-5 bg-blue-100 rounded w-3/4 mb-2" />
+                  <div className="h-4 bg-blue-100 rounded w-full mb-1" />
+                  <div className="h-4 bg-blue-100 rounded w-1/2" />
                 </div>
               ))}
             </div>
@@ -145,7 +145,7 @@ export default function StorePage() {
                   d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">
+              <h3 className="mt-4 text-lg font-medium text-[#8AAAE5]">
                 No stores found
               </h3>
               <p className="mt-2 text-sm text-gray-500">
@@ -160,10 +160,10 @@ export default function StorePage() {
                 {stores.map((store) => (
                   <div
                     key={store.id}
-                    className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                    className="group bg-white rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow duration-300"
                   >
                     {/* Image */}
-                    <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+                    <div className="aspect-[4/3] bg-blue-50 overflow-hidden">
                       {store.image ? (
                         <img
                           src={store.image}
@@ -191,7 +191,7 @@ export default function StorePage() {
 
                     {/* Content */}
                     <div className="p-5">
-                      <h3 className="font-semibold text-gray-900 line-clamp-1">
+                      <h3 className="font-semibold text-[#8AAAE5] line-clamp-1">
                         {store.name}
                       </h3>
                       <div className="mt-3 space-y-2 text-sm text-gray-600">
@@ -247,7 +247,7 @@ export default function StorePage() {
                               d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                             />
                           </svg>
-                          <span className="font-medium text-gray-900">
+                          <span className="font-medium text-[#8AAAE5]">
                             {store.city}
                           </span>
                         </div>
@@ -255,7 +255,7 @@ export default function StorePage() {
                     </div>
 
                     {/* Map */}
-                    <div className="border-t border-gray-200">
+                    <div className="border-t border-blue-100">
                       <iframe
                         src={
                           store.latitude && store.longitude
@@ -294,7 +294,7 @@ export default function StorePage() {
                     <button
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 text-sm font-medium bg-white border border-blue-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       Previous
                     </button>
@@ -305,8 +305,8 @@ export default function StorePage() {
                           onClick={() => setCurrentPage(page)}
                           className={`w-10 h-10 text-sm font-medium rounded-lg transition-colors ${
                             page === currentPage
-                              ? "bg-gray-900 text-white"
-                              : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                              ? "bg-[#8AAAE5] text-white"
+                              : "bg-white border border-blue-200 text-gray-700 hover:bg-gray-50"
                           }`}
                         >
                           {page}
@@ -318,7 +318,7 @@ export default function StorePage() {
                         setCurrentPage((p) => Math.min(totalPages, p + 1))
                       }
                       disabled={currentPage === totalPages}
-                      className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 text-sm font-medium bg-white border border-blue-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       Next
                     </button>

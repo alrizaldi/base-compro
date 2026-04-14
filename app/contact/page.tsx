@@ -148,12 +148,12 @@ export default function ContactPage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 sm:py-24">
+        <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               Get in Touch
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               Have a question or want to work together? We&apos;d love to hear
               from you.
             </p>
@@ -166,11 +166,11 @@ export default function ContactPage() {
             <div className="space-y-8">
               {contactInfo.map((item) => (
                 <div key={item.title} className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-900">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-[#8AAAE5]">
                     {item.icon}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">
+                    <h3 className="font-semibold text-[#8AAAE5]">
                       {item.title}
                     </h3>
                     {item.lines.map((line, i) => (
@@ -184,11 +184,11 @@ export default function ContactPage() {
 
               {/* Social Links */}
               <div className="pt-4">
-                <h3 className="font-semibold text-gray-900 mb-4">Follow Us</h3>
+                <h3 className="font-semibold text-[#8AAAE5] mb-4">Follow Us</h3>
                 <div className="flex gap-3">
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-900 hover:text-white transition-colors"
+                    className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-gray-600 hover:bg-[#8AAAE5] hover:text-white transition-colors"
                     aria-label="Twitter"
                   >
                     <svg
@@ -201,7 +201,7 @@ export default function ContactPage() {
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-900 hover:text-white transition-colors"
+                    className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-gray-600 hover:bg-[#8AAAE5] hover:text-white transition-colors"
                     aria-label="Instagram"
                   >
                     <svg
@@ -218,7 +218,7 @@ export default function ContactPage() {
                   </a>
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-900 hover:text-white transition-colors"
+                    className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-gray-600 hover:bg-[#8AAAE5] hover:text-white transition-colors"
                     aria-label="LinkedIn"
                   >
                     <svg
@@ -235,8 +235,8 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <div className="bg-white rounded-xl border border-blue-100 p-6 sm:p-8">
+                <h2 className="text-2xl font-bold text-[#8AAAE5] mb-6">
                   Send Us a Message
                 </h2>
 
@@ -291,7 +291,7 @@ export default function ContactPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                        className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
                         placeholder="John Doe"
                         required
                       />
@@ -310,7 +310,7 @@ export default function ContactPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                        className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
                         placeholder="john@example.com"
                         required
                       />
@@ -331,7 +331,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, subject: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                      className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
                       placeholder="How can we help?"
                       required
                     />
@@ -351,7 +351,7 @@ export default function ContactPage() {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       rows={6}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm resize-none"
+                      className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm resize-none"
                       placeholder="Tell us more about your inquiry..."
                       required
                     />
@@ -365,7 +365,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setSubscribeToNewsletter(e.target.checked)
                       }
-                      className="mt-0.5 w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                      className="mt-0.5 w-4 h-4 rounded border-blue-200 text-[#8AAAE5] focus:ring-[#8AAAE5]"
                     />
                     <label
                       htmlFor="newsletter"
@@ -379,15 +379,15 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full sm:w-auto px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto px-8 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {submitting ? "Sending..." : "Send Message"}
                   </button>
                 </form>
 
                 {/* Newsletter Subscription */}
-                <div className="mt-10 pt-8 border-t border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <div className="mt-10 pt-8 border-t border-blue-100">
+                  <h3 className="text-lg font-semibold text-[#8AAAE5] mb-2">
                     Subscribe to Our Newsletter
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
@@ -414,14 +414,14 @@ export default function ContactPage() {
                             email: e.target.value,
                           })
                         }
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                        className="flex-1 px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
                         placeholder="Enter your email"
                         required
                       />
                       <button
                         type="submit"
                         disabled={subscribing}
-                        className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
+                        className="px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
                       >
                         {subscribing ? "Subscribing..." : "Subscribe"}
                       </button>

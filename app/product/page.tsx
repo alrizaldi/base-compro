@@ -71,12 +71,12 @@ export default function ProductPage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 sm:py-24">
+        <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               Our Products
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               Discover our curated collection of premium tech essentials
               designed to elevate your workspace.
             </p>
@@ -96,11 +96,11 @@ export default function ProductPage() {
                 value={searchInput}
                 onChange={handleSearchChange}
                 placeholder="Search products..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 text-sm"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8AAAE5] text-sm"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 text-sm font-medium transition-colors"
+                className="px-6 py-3 bg-[#8AAAE5] text-white rounded-lg hover:bg-[#6a8fcf] text-sm font-medium transition-colors"
               >
                 Search
               </button>
@@ -137,10 +137,10 @@ export default function ProductPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-200 rounded-xl aspect-square mb-4" />
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-gray-200 rounded w-full mb-2" />
-                  <div className="h-5 bg-gray-200 rounded w-1/2" />
+                  <div className="bg-blue-100 rounded-xl aspect-square mb-4" />
+                  <div className="h-4 bg-blue-100 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-blue-100 rounded w-full mb-2" />
+                  <div className="h-5 bg-blue-100 rounded w-1/2" />
                 </div>
               ))}
             </div>
@@ -159,7 +159,7 @@ export default function ProductPage() {
                   d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-gray-900">
+              <h3 className="mt-4 text-lg font-medium text-[#8AAAE5]">
                 No products found
               </h3>
               <p className="mt-2 text-sm text-gray-500">
@@ -174,12 +174,12 @@ export default function ProductPage() {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                    className="group bg-white rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow duration-300"
                   >
                     {/* Image */}
                     <Link
                       href={`/product/${product.id}`}
-                      className="aspect-square bg-gray-100 overflow-hidden block relative"
+                      className="aspect-square bg-blue-50 overflow-hidden block relative"
                     >
                       {product.images && product.images.length > 0 ? (
                         <img
@@ -210,7 +210,7 @@ export default function ProductPage() {
                     <div className="p-4">
                       <Link
                         href={`/product/${product.id}`}
-                        className="font-semibold text-gray-900 line-clamp-1 group-hover:text-gray-700 transition-colors block"
+                        className="font-semibold text-[#8AAAE5] line-clamp-1 group-hover:text-gray-700 transition-colors block"
                       >
                         {product.name}
                       </Link>
@@ -218,12 +218,12 @@ export default function ProductPage() {
                         {product.description}
                       </p>
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="text-lg font-bold text-gray-900">
+                        <span className="text-lg font-bold text-[#8AAAE5]">
                           {formatCurrency(product.price)}
                         </span>
                         <Link
                           href={`/product/${product.id}`}
-                          className="px-3 py-1.5 text-xs font-medium text-gray-900 border border-gray-900 rounded-lg hover:bg-gray-900 hover:text-white transition-colors inline-block"
+                          className="px-3 py-1.5 text-xs font-medium text-[#8AAAE5] border border-[#8AAAE5] rounded-lg hover:bg-[#8AAAE5] hover:text-white transition-colors inline-block"
                         >
                           View Details
                         </Link>
@@ -263,7 +263,7 @@ export default function ProductPage() {
                           onClick={() => setCurrentPage(page)}
                           className={`w-10 h-10 text-sm font-medium rounded-lg transition-colors ${
                             page === currentPage
-                              ? "bg-gray-900 text-white"
+                              ? "bg-[#8AAAE5] text-white"
                               : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
                           }`}
                         >

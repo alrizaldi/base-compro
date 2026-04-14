@@ -85,25 +85,25 @@ export default async function HomePage() {
     <PageLayout>
       <div className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-20 sm:py-32">
+        <section className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] text-white py-20 sm:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
               Premium Tech Essentials
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-6 text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
               Curated collection of high-quality accessories designed to elevate
               your workspace and daily life.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/product"
-                className="px-8 py-4 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                className="px-8 py-4 bg-white text-[#8AAAE5] rounded-lg font-semibold hover:bg-blue-50 transition-colors"
               >
                 Browse Products
               </Link>
               <Link
                 href="/about"
-                className="px-8 py-4 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors"
+                className="px-8 py-4 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-[#8AAAE5] transition-colors"
               >
                 Learn More
               </Link>
@@ -112,12 +112,12 @@ export default async function HomePage() {
         </section>
 
         {/* Stats Strip */}
-        <section className="border-b border-gray-200">
+        <section className="border-b border-blue-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-blue-100">
               {stats.map((stat, i) => (
                 <div key={i} className="py-10 px-6 text-center">
-                  <div className="text-3xl sm:text-4xl font-bold text-gray-900">
+                  <div className="text-3xl sm:text-4xl font-bold text-[#8AAAE5]">
                     {stat.value}
                   </div>
                   <div className="mt-1 text-sm text-gray-600">{stat.label}</div>
@@ -131,14 +131,14 @@ export default async function HomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">
+              <h2 className="text-3xl font-bold text-[#8AAAE5]">
                 Featured Products
               </h2>
               <p className="mt-2 text-gray-600">Our most popular picks.</p>
             </div>
             <Link
               href="/product"
-              className="text-sm font-medium text-gray-900 hover:text-gray-700 hidden sm:block"
+              className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf] hidden sm:block"
             >
               View All &rarr;
             </Link>
@@ -148,9 +148,9 @@ export default async function HomePage() {
               <Link
                 key={product.id}
                 href={`/product/${product.id}`}
-                className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                className="group bg-white rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="aspect-square bg-gray-100 overflow-hidden">
+                <div className="aspect-square bg-blue-50 overflow-hidden">
                   {product.images && product.images.length > 0 ? (
                     <img
                       src={product.images[0]}
@@ -176,13 +176,13 @@ export default async function HomePage() {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 line-clamp-1">
+                  <h3 className="font-semibold text-[#8AAAE5] line-clamp-1">
                     {product.name}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500 line-clamp-2">
                     {product.description}
                   </p>
-                  <span className="mt-2 block text-lg font-bold text-gray-900">
+                  <span className="mt-2 block text-lg font-bold text-[#8AAAE5]">
                     {formatCurrency(product.price)}
                   </span>
                 </div>
@@ -192,7 +192,7 @@ export default async function HomePage() {
           <div className="mt-6 text-center sm:hidden">
             <Link
               href="/product"
-              className="text-sm font-medium text-gray-900 hover:text-gray-700"
+              className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf]"
             >
               View All Products &rarr;
             </Link>
@@ -200,11 +200,11 @@ export default async function HomePage() {
         </section>
 
         {/* Testimonials */}
-        <section className="bg-gray-50 py-16 sm:py-24">
+        <section className="bg-blue-50 py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900">
+                <h2 className="text-3xl font-bold text-[#8AAAE5]">
                   What Our Customers Say
                 </h2>
                 <p className="mt-2 text-gray-600">
@@ -213,7 +213,7 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/testimonial"
-                className="text-sm font-medium text-gray-900 hover:text-gray-700 hidden sm:block"
+                className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf] hidden sm:block"
               >
                 View All &rarr;
               </Link>
@@ -222,7 +222,7 @@ export default async function HomePage() {
               {testimonials.map((t) => (
                 <div
                   key={t.id}
-                  className="bg-white rounded-xl border border-gray-200 p-6"
+                  className="bg-white rounded-xl border border-blue-100 p-6"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     {t.avatar ? (
@@ -232,12 +232,12 @@ export default async function HomePage() {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm font-medium">
+                      <div className="w-10 h-10 rounded-full bg-[#8AAAE5] text-white flex items-center justify-center text-sm font-medium">
                         {t.name.charAt(0)}
                       </div>
                     )}
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm">
+                      <h3 className="font-semibold text-[#8AAAE5] text-sm">
                         {t.name}
                       </h3>
                       <p className="text-xs text-gray-500">{t.role}</p>
@@ -253,7 +253,7 @@ export default async function HomePage() {
             <div className="mt-6 text-center sm:hidden">
               <Link
                 href="/testimonial"
-                className="text-sm font-medium text-gray-900 hover:text-gray-700"
+                className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf]"
               >
                 View All Testimonials &rarr;
               </Link>
@@ -265,7 +265,7 @@ export default async function HomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">
+              <h2 className="text-3xl font-bold text-[#8AAAE5]">
                 Latest Articles
               </h2>
               <p className="mt-2 text-gray-600">
@@ -274,7 +274,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/article"
-              className="text-sm font-medium text-gray-900 hover:text-gray-700 hidden sm:block"
+              className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf] hidden sm:block"
             >
               View All &rarr;
             </Link>
@@ -284,9 +284,9 @@ export default async function HomePage() {
               <Link
                 key={article.id}
                 href={`/article/${article.id}`}
-                className="group flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                className="group flex flex-col bg-white rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="aspect-video bg-gray-100 overflow-hidden">
+                <div className="aspect-video bg-blue-50 overflow-hidden">
                   {article.image ? (
                     <img
                       src={article.image}
@@ -323,7 +323,7 @@ export default async function HomePage() {
                     <span>&middot;</span>
                     <span>{article.author}</span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 group-hover:text-gray-700 transition-colors line-clamp-2">
+                  <h3 className="font-semibold text-[#8AAAE5] group-hover:text-[#6a8fcf] transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="mt-2 text-sm text-gray-600 line-clamp-2">
@@ -336,7 +336,7 @@ export default async function HomePage() {
           <div className="mt-6 text-center sm:hidden">
             <Link
               href="/article"
-              className="text-sm font-medium text-gray-900 hover:text-gray-700"
+              className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf]"
             >
               View All Articles &rarr;
             </Link>
@@ -344,11 +344,11 @@ export default async function HomePage() {
         </section>
 
         {/* Store Locations */}
-        <section className="bg-gray-50 py-16 sm:py-24">
+        <section className="bg-blue-50 py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900">
+                <h2 className="text-3xl font-bold text-[#8AAAE5]">
                   Visit Our Stores
                 </h2>
                 <p className="mt-2 text-gray-600">
@@ -357,7 +357,7 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/store"
-                className="text-sm font-medium text-gray-900 hover:text-gray-700 hidden sm:block"
+                className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf] hidden sm:block"
               >
                 View All &rarr;
               </Link>
@@ -366,9 +366,9 @@ export default async function HomePage() {
               {stores.map((store) => (
                 <div
                   key={store.id}
-                  className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-xl border border-blue-100 overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+                  <div className="aspect-[4/3] bg-blue-50 overflow-hidden">
                     {store.image ? (
                       <img
                         src={store.image}
@@ -394,7 +394,7 @@ export default async function HomePage() {
                     )}
                   </div>
                   <div className="p-5">
-                    <h3 className="font-semibold text-gray-900">
+                    <h3 className="font-semibold text-[#8AAAE5]">
                       {store.name}
                     </h3>
                     <div className="mt-3 space-y-1.5 text-sm text-gray-600">
@@ -450,13 +450,13 @@ export default async function HomePage() {
                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                           />
                         </svg>
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-[#8AAAE5]">
                           {store.city}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className="border-t border-gray-200">
+                  <div className="border-t border-blue-100">
                     <iframe
                       src={
                         store.latitude && store.longitude
@@ -479,7 +479,7 @@ export default async function HomePage() {
             <div className="mt-6 text-center sm:hidden">
               <Link
                 href="/store"
-                className="text-sm font-medium text-gray-900 hover:text-gray-700"
+                className="text-sm font-medium text-[#8AAAE5] hover:text-[#6a8fcf]"
               >
                 View All Stores &rarr;
               </Link>
@@ -489,15 +489,15 @@ export default async function HomePage() {
 
         {/* CTA / Contact */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <div className="bg-gray-900 rounded-2xl px-6 py-12 sm:px-12 sm:py-16 text-center">
+          <div className="bg-gradient-to-br from-[#8AAAE5] to-[#6a8fcf] rounded-2xl px-6 py-12 sm:px-12 sm:py-16 text-center">
             <h2 className="text-3xl font-bold text-white">Have a Question?</h2>
-            <p className="mt-4 text-lg text-gray-300 max-w-xl mx-auto">
+            <p className="mt-4 text-lg text-blue-100 max-w-xl mx-auto">
               We&apos;re here to help. Reach out to us and our team will get
               back to you within 24 hours.
             </p>
             <Link
               href="/contact"
-              className="mt-8 inline-block px-8 py-4 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              className="mt-8 inline-block px-8 py-4 bg-white text-[#8AAAE5] rounded-lg font-semibold hover:bg-blue-50 transition-colors"
             >
               Contact Us
             </Link>
